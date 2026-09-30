@@ -23,10 +23,10 @@ public class FPS : MonoBehaviour
     //Gravity
     RaycastHit hit;
     Ray ray;
-    float gravity = -9.8f;
+    [SerializeField]float gravity = -9.8f;
     bool onground = false;
 
-    void setup()
+    void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -55,8 +55,6 @@ public class FPS : MonoBehaviour
 
         xrotation += inputvertical;
         xrotation = Mathf.Clamp(xrotation, -90f, 90f);
-
-        Debug.Log(cam.transform.rotation);
 
         player.transform.Rotate(0f, inputhorizontal,0f);
         if(xrotation < 85f && xrotation > -85f)
