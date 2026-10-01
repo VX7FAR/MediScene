@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj_name: thing
   canpick: 1
-  pickup_size: {x: 0, y: 0, z: 0}
-  original_size: {x: 0, y: 0, z: 0}
-  prefab: {fileID: 0}
+  pickup_size: {x: 0.5, y: 0.5, z: 0.5}
+  original_size: {x: 1, y: 1, z: 1}
+  prefab: {fileID: 958685353827239294, guid: e3ba3bd8457c4ad44817b64171aad422, type: 3}
