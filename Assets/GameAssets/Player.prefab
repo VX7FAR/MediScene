@@ -127,7 +127,7 @@ MonoBehaviour:
   char_controller: {fileID: 4151148409793186511}
   cam: {fileID: 7005883827875253206}
   mouse_Sen: 50
-  movement_speed: 50
+  movement_speed: 30
   gravity: -19.6
 --- !u!143 &4151148409793186511
 CharacterController:
