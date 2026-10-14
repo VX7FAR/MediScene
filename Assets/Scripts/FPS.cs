@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class FPS : MonoBehaviour
 {
+    UnityEngine.Vector3 init_position;
+
     //Mouse Look
     float inputhorizontal;
     float inputvertical;
@@ -29,6 +31,7 @@ public class FPS : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        init_position = gameObject.transform.position;
     }
 
     void Update()
@@ -63,5 +66,10 @@ public class FPS : MonoBehaviour
         }
 
         char_controller.Move(move);
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            gameObject.transform.position = init_position;
+        }
     }
 }
