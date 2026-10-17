@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5341780826165702706
+--- !u!1001 &8829215458931615935
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,16 +9,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9c37836949ca56d44aaa60935db215ba, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3393
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9c37836949ca56d44aaa60935db215ba, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3742
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9c37836949ca56d44aaa60935db215ba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.9412403
+      value: -227.79335
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9c37836949ca56d44aaa60935db215ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00000082912265
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9c37836949ca56d44aaa60935db215ba, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.444308
+      value: 413.0746
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9c37836949ca56d44aaa60935db215ba, type: 3}
       propertyPath: m_LocalRotation.w
@@ -48,9 +56,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9c37836949ca56d44aaa60935db215ba, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 679826870d7e8c44c992ad10327c53dc, type: 2}
     - target: {fileID: 919132149155446097, guid: 9c37836949ca56d44aaa60935db215ba, type: 3}
       propertyPath: m_Name
-      value: door1
+      value: door1 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
