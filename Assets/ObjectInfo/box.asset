@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cc3bfbeac47f444ab689a95ff6ae2ff, type: 3}
-  m_Name: test_obj
+  m_Script: {fileID: 11500000, guid: f77c82fa7a1dcd6419370e63ae7a43b1, type: 3}
+  m_Name: box
   m_EditorClassIdentifier: 
-  obj_name: thing
-  canpick: 1
-  pickup_size: {x: 0.5, y: 0.5, z: 0.5}
-  original_size: {x: 1, y: 1, z: 1}
-  prefab: {fileID: 958685353827239294, guid: e3ba3bd8457c4ad44817b64171aad422, type: 3}
+  obj_name: 
+  can_pick: 0

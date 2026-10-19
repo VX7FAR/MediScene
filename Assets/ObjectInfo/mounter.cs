@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class data_mounter : MonoBehaviour
+public class mounter : MonoBehaviour
 {
-    public BaseItem data;
+    public Itemdata itemdata;
 }
