@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77c82fa7a1dcd6419370e63ae7a43b1, type: 3}
   m_Name: Capsule
   m_EditorClassIdentifier: 
-  obj_name: 
-  can_pick: 0
+  obj_name: Capsule
+  can_pick: 1
+  obj_type: 1

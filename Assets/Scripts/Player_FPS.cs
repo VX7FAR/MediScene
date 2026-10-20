@@ -7,6 +7,8 @@ public class FPS : MonoBehaviour
 {
     UnityEngine.Vector3 init_position;
 
+    public float flipy = 1.0f;
+
     //Mouse Look
     float inputhorizontal;
     float inputvertical;
@@ -38,7 +40,7 @@ public class FPS : MonoBehaviour
     {
         ray = new Ray(player.transform.position, -player.transform.up);
         inputhorizontal = Input.GetAxis("Mouse X") * mouse_Sen * Time.deltaTime;
-        inputvertical = Input.GetAxis("Mouse Y") * mouse_Sen * Time.deltaTime * -1.0f;
+        inputvertical = Input.GetAxis("Mouse Y") * mouse_Sen * Time.deltaTime * -1.0f * flipy;
         move_x = Input.GetAxis("Horizontal") * movement_speed * Time.deltaTime;
         move_z = Input.GetAxis("Vertical") * movement_speed * Time.deltaTime;
         move = transform.forward * move_z + transform.right * move_x;

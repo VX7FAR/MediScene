@@ -12,18 +12,4 @@ public class Itemdata : ScriptableObject
     public string obj_name;
     public bool can_pick;
     public categories obj_type;
-    public void use()
-    {
-        switch (obj_type)
-        {
-            case categories.capsule:
-                Debug.Log("Effect given");
-                break;
-
-            case categories.regular:
-                Debug.Log("Used");
-                break;
-        }
-    }
-
 }

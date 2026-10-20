@@ -11,13 +11,13 @@ public class Interact : MonoBehaviour
         public Itemdata data;
     }
 
-    mounter_n_obj interacting_with;
+    public mounter_n_obj interacting_with;
     [SerializeField]GameObject cam;
     RaycastHit hit;
     float range = 100.0f;
-
-    bool isholding = false;
     [SerializeField]Transform moveto;
+
+    public bool isholding = false;
 
     void Start()
     {
@@ -28,7 +28,7 @@ public class Interact : MonoBehaviour
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isholding)
+        if (Input.GetKeyDown(KeyCode.F) && !isholding)
         {
             if(Physics.Raycast(ray, out hit, range) && hit.collider != null && hit.collider.gameObject.GetComponent<mounter>() != null)
             {
@@ -40,9 +40,6 @@ public class Interact : MonoBehaviour
                 }
                 isholding = true;
             }
-        }
-        if(Input.GetKeyDown(KeyCode.F) && isholding){
-            interacting_with.data.use();
         }
         if(isholding && Input.GetKeyDown(KeyCode.G))
         {
