@@ -9,7 +9,7 @@ public class UseItems : MonoBehaviour
     Itemdata interacting_data;
     [SerializeField]GameObject cam;
 
-    string[] effect_list = {"rotatecam180", "toxicair", "oversteering"};
+    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols"};
     bool capsule;
     public float multiplier = 30.0f;
 
@@ -46,21 +46,25 @@ public class UseItems : MonoBehaviour
         if (capsule)
         {
             // string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
-            string effect = effect_list[1];
+            string effect = effect_list[0];
             
             if(effect == "rotatecam180")
             {
                 cam.transform.Rotate(0f,0f,180f);
-                gameObject.GetComponent<FPS>().flipy = -1;
+                gameObject.GetComponent<FPS>().flipmousey = -1;
             }
-            if(effect == "toxicair")
+            else if(effect == "toxicair")
             {
                 gameObject.GetComponent<toxicair>().enabled = true;
             }
-            if(effect == "oversteering")
+            else if(effect == "oversteering")
             {
                 gameObject.GetComponent<FPS>().mouse_Sen *= multiplier;
                 gameObject.GetComponent<FPS>().movement_speed *= multiplier;
+            }
+            else if(effect == "flipcontrols")
+            {
+                gameObject.GetComponent<FPS>().flip = -1.0f;
             }
 
             capsule = false;
