@@ -7,11 +7,11 @@ public class UseItems : MonoBehaviour
     bool isholding = false;
     GameObject interacting_obj;
     Itemdata interacting_data;
-
     [SerializeField]GameObject cam;
 
-    string[] effect_list = {"rotatecam180", "rotatecam90"};
+    string[] effect_list = {"rotatecam180", "toxicair", "oversteering"};
     bool capsule;
+    public float multiplier = 30.0f;
 
     void Start()
     {
@@ -45,16 +45,22 @@ public class UseItems : MonoBehaviour
         }
         if (capsule)
         {
-            string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
+            // string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
+            string effect = effect_list[1];
             
             if(effect == "rotatecam180")
             {
                 cam.transform.Rotate(0f,0f,180f);
                 gameObject.GetComponent<FPS>().flipy = -1;
             }
-            if(effect == "rotatecam90")
+            if(effect == "toxicair")
             {
-                cam.transform.Rotate(0f,0f,90f);
+                gameObject.GetComponent<toxicair>().enabled = true;
+            }
+            if(effect == "oversteering")
+            {
+                gameObject.GetComponent<FPS>().mouse_Sen *= multiplier;
+                gameObject.GetComponent<FPS>().movement_speed *= multiplier;
             }
 
             capsule = false;

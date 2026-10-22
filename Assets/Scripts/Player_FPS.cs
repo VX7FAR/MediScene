@@ -16,10 +16,10 @@ public class FPS : MonoBehaviour
     [SerializeField]GameObject player;
     [SerializeField]CharacterController char_controller;
     [SerializeField]GameObject cam;
-    [SerializeField]float mouse_Sen;
+    public float mouse_Sen;
 
     //Movement
-    [SerializeField]float movement_speed;
+    public float movement_speed;
     float move_z;       //Forward n backward
     float move_x;       //Left n right
     UnityEngine.Vector3 move;
