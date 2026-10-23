@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FPS : MonoBehaviour
 {
@@ -31,6 +31,21 @@ public class FPS : MonoBehaviour
     [SerializeField]float gravity = -9.8f;
     bool onground = false;
 
+    [SerializeField]InputActionAsset INPUT;
+    InputAction wasd_input;
+    Vector2 wasd_velocity;
+    Vector2 smooth_wasd;
+
+    void Awake()
+    {
+        wasd_input = INPUT.FindActionMap("FPS").FindAction("WASD");    
+    }
+
+    void OnEnable()
+    {
+        INPUT.FindActionMap("FPS").Enable();
+    }
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -40,10 +55,16 @@ public class FPS : MonoBehaviour
     void Update()
     {
         ray = new Ray(player.transform.position, -player.transform.up);
-        inputhorizontal = Input.GetAxis("Mouse X") * mouse_Sen * Time.deltaTime * flip * flipmousey;
-        inputvertical = Input.GetAxis("Mouse Y") * mouse_Sen * Time.deltaTime * -1.0f * flip;
-        move_x = Input.GetAxis("Horizontal") * movement_speed * Time.deltaTime * flip * flipmousey;
-        move_z = Input.GetAxis("Vertical") * movement_speed * Time.deltaTime * flip;
+
+        Vector2 wasd_target =  wasd_input.ReadValue<Vector2>();
+        smooth_wasd = Vector2.SmoothDamp(smooth_wasd, wasd_target, ref wasd_velocity, 0.1f);
+
+        inputhorizontal = Input.GetAxis("Mouse X") * mouse_Sen * flip * flipmousey * Time.deltaTime;
+        inputvertical = Input.GetAxis("Mouse Y") * mouse_Sen * -1.0f * flip * Time.deltaTime;
+        move_x = smooth_wasd.x * movement_speed * Time.deltaTime * flip * flipmousey;
+        move_z = smooth_wasd.y * movement_speed * Time.deltaTime * flip;
+
+
         move = transform.forward * move_z + transform.right * move_x;
         if(Physics.Raycast(ray, out hit, 50f))
         {
@@ -74,7 +95,10 @@ public class FPS : MonoBehaviour
         {
             gameObject.transform.position = init_position;
         }
+    }
 
-        Debug.Log(cam.transform.eulerAngles.x);
+    void OnDisable()
+    {
+        INPUT.FindActionMap("Movement").Disable();  
     }
 }

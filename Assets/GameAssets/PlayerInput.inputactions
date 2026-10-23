@@ -3,7 +3,7 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "Movement",
+            "name": "FPS",
             "id": "bcf89e76-d8d9-4f68-94cb-41273d08d6c8",
             "actions": [
                 {
