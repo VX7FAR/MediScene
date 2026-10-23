@@ -9,7 +9,7 @@ public class UseItems : MonoBehaviour
     Itemdata interacting_data;
     [SerializeField]GameObject cam;
 
-    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols"};
+    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey"};
     bool capsule;
     public float multiplier = 30.0f;
 
@@ -65,6 +65,10 @@ public class UseItems : MonoBehaviour
             else if(effect == "flipcontrols")
             {
                 gameObject.GetComponent<FPS>().flip = -1.0f;
+            }
+            else if(effect == "fixedkey")
+            {
+                gameObject.GetComponent <FPS>().fixkey = true;
             }
 
             capsule = false;

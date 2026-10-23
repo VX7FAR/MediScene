@@ -36,6 +36,10 @@ public class FPS : MonoBehaviour
     Vector2 wasd_velocity;
     Vector2 smooth_wasd;
 
+    public bool fixkey = false;
+    Vector2 fixed_key2;
+    [SerializeField]float fixed_key_spd;
+    
     void Awake()
     {
         wasd_input = INPUT.FindActionMap("FPS").FindAction("WASD");    
@@ -61,9 +65,24 @@ public class FPS : MonoBehaviour
 
         inputhorizontal = Input.GetAxis("Mouse X") * mouse_Sen * flip * flipmousey * Time.deltaTime;
         inputvertical = Input.GetAxis("Mouse Y") * mouse_Sen * -1.0f * flip * Time.deltaTime;
-        move_x = smooth_wasd.x * movement_speed * Time.deltaTime * flip * flipmousey;
-        move_z = smooth_wasd.y * movement_speed * Time.deltaTime * flip;
-
+        if (!fixkey)
+        {
+            move_x = smooth_wasd.x * movement_speed * Time.deltaTime * flip * flipmousey;
+            move_z = smooth_wasd.y * movement_speed * Time.deltaTime * flip;
+        }
+        else
+        {
+            if(smooth_wasd.x != 0 )
+            {
+                fixed_key2.x = Mathf.Sign(smooth_wasd.x);
+            }
+            if(smooth_wasd.y != 0)
+            {
+                fixed_key2.y = Mathf.Sign(smooth_wasd.y);
+            }
+            move_x = fixed_key2.x * fixed_key_spd * Time.deltaTime * flip * flipmousey;
+            move_z = fixed_key2.y * fixed_key_spd * Time.deltaTime * flip * flipmousey;
+        }
 
         move = transform.forward * move_z + transform.right * move_x;
         if(Physics.Raycast(ray, out hit, 50f))
