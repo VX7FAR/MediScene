@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,9 +15,9 @@ public class FPS : MonoBehaviour
     float inputhorizontal;
     float inputvertical;
     float xrotation;
-    [SerializeField]GameObject player;
-    [SerializeField]CharacterController char_controller;
-    [SerializeField]GameObject cam;
+    [SerializeField] GameObject player;
+    [SerializeField] CharacterController char_controller;
+    [SerializeField] GameObject cam;
     public float mouse_Sen;
 
     //Movement
@@ -28,21 +29,21 @@ public class FPS : MonoBehaviour
     //Gravity
     RaycastHit hit;
     Ray ray;
-    [SerializeField]float gravity = -9.8f;
+    [SerializeField] float gravity = -9.8f;
     bool onground = false;
 
-    [SerializeField]InputActionAsset INPUT;
+    [SerializeField] InputActionAsset INPUT;
     InputAction wasd_input;
     Vector2 wasd_velocity;
     Vector2 smooth_wasd;
 
     public bool fixkey = false;
     Vector2 fixed_key2;
-    [SerializeField]float fixed_key_spd;
-    
+    [SerializeField] float fixed_key_spd;
+
     void Awake()
     {
-        wasd_input = INPUT.FindActionMap("FPS").FindAction("WASD");    
+        wasd_input = INPUT.FindActionMap("FPS").FindAction("WASD");
     }
 
     void OnEnable()
@@ -60,11 +61,11 @@ public class FPS : MonoBehaviour
     {
         ray = new Ray(player.transform.position, -player.transform.up);
 
-        Vector2 wasd_target =  wasd_input.ReadValue<Vector2>();
+        Vector2 wasd_target = wasd_input.ReadValue<Vector2>();
         smooth_wasd = Vector2.SmoothDamp(smooth_wasd, wasd_target, ref wasd_velocity, 0.1f);
 
-        inputhorizontal = Input.GetAxis("Mouse X") * mouse_Sen * flip * flipmousey * Time.deltaTime;
-        inputvertical = Input.GetAxis("Mouse Y") * mouse_Sen * -1.0f * flip * Time.deltaTime;
+        inputhorizontal = Input.GetAxis("Mouse X") * mouse_Sen * flip * flipmousey;
+        inputvertical = Input.GetAxis("Mouse Y") * mouse_Sen * flip;
         if (!fixkey)
         {
             move_x = smooth_wasd.x * movement_speed * Time.deltaTime * flip * flipmousey;
@@ -72,11 +73,11 @@ public class FPS : MonoBehaviour
         }
         else
         {
-            if(smooth_wasd.x != 0 )
+            if (smooth_wasd.x != 0)
             {
                 fixed_key2.x = Mathf.Sign(smooth_wasd.x);
             }
-            if(smooth_wasd.y != 0)
+            if (smooth_wasd.y != 0)
             {
                 fixed_key2.y = Mathf.Sign(smooth_wasd.y);
             }
@@ -85,9 +86,9 @@ public class FPS : MonoBehaviour
         }
 
         move = transform.forward * move_z + transform.right * move_x;
-        if(Physics.Raycast(ray, out hit, 50f))
+        if (Physics.Raycast(ray, out hit, 50f))
         {
-            onground = hit.distance > 1f?false:true;
+            onground = hit.distance > 1f ? false : true;
         }
 
         if (onground)
@@ -99,14 +100,11 @@ public class FPS : MonoBehaviour
             move.y += gravity * Time.deltaTime;
         }
 
-        xrotation += inputvertical;
+        xrotation -= inputvertical;
         xrotation = Mathf.Clamp(xrotation, -90f, 90f);
 
-        player.transform.Rotate(0f, inputhorizontal,0f);
-        if(xrotation < 85f && xrotation > -85f)
-        {
-            cam.transform.Rotate(inputvertical, 0f, 0f);
-        }
+        gameObject.transform.Rotate(0f, inputhorizontal, 0f);
+        cam.transform.localRotation = Quaternion.Euler(xrotation, 0f, 0f);
 
         char_controller.Move(move);
 
@@ -118,6 +116,6 @@ public class FPS : MonoBehaviour
 
     void OnDisable()
     {
-        INPUT.FindActionMap("Movement").Disable();  
+        INPUT.FindActionMap("Movement").Disable();
     }
 }
