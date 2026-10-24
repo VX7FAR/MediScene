@@ -9,7 +9,7 @@ public class UseItems : MonoBehaviour
     Itemdata interacting_data;
     [SerializeField]GameObject cam;
 
-    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey"};
+    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput"};
     bool capsule;
     public float multiplier = 30.0f;
 
@@ -46,7 +46,7 @@ public class UseItems : MonoBehaviour
         if (capsule)
         {
             // string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
-            string effect = effect_list[0];
+            string effect = effect_list[5];
             
             if(effect == "rotatecam180")
             {
@@ -70,7 +70,20 @@ public class UseItems : MonoBehaviour
             {
                 gameObject.GetComponent <FPS>().fixkey = true;
             }
-
+            else if(effect == "lockedinput")
+            {
+                bool blockx = Random.Range(0,2) == 1;
+                if (blockx)
+                {
+                    gameObject.GetComponent<FPS>().lock_Axis.x = 0.0f;
+                }
+                else
+                {
+                    gameObject.GetComponent<FPS>().lock_Axis.y = 0.0f;
+                }
+                Debug.Log("APAKJKDWDAD");
+            }
+            Debug.Log("Used");
             capsule = false;
         }
     }

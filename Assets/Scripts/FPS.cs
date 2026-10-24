@@ -37,9 +37,13 @@ public class FPS : MonoBehaviour
     Vector2 wasd_velocity;
     Vector2 smooth_wasd;
 
+    //Fix key effect
     public bool fixkey = false;
     Vector2 fixed_key2;
     [SerializeField] float fixed_key_spd;
+
+    //Locked key effect
+    public Vector2 lock_Axis = new Vector2(1.0f,1.0f);
 
     void Awake()
     {
@@ -66,10 +70,11 @@ public class FPS : MonoBehaviour
 
         inputhorizontal = Input.GetAxis("Mouse X") * mouse_Sen * flip * flipmousey;
         inputvertical = Input.GetAxis("Mouse Y") * mouse_Sen * flip;
+
         if (!fixkey)
         {
-            move_x = smooth_wasd.x * movement_speed * Time.deltaTime * flip * flipmousey;
-            move_z = smooth_wasd.y * movement_speed * Time.deltaTime * flip;
+            move_x = smooth_wasd.x * movement_speed * Time.deltaTime * flip * flipmousey * lock_Axis.x;
+            move_z = smooth_wasd.y * movement_speed * Time.deltaTime * flip * lock_Axis.y;
         }
         else
         {

@@ -892,20 +892,6 @@ MonoBehaviour:
   cam: {fileID: 457231182}
   moveto: {fileID: 828723623}
   isholding: 0
---- !u!114 &1522346561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522346547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aac2ec438be05e146879c860b61bff57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 457231182}
-  multiplier: 30
 --- !u!114 &1522346568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,6 +905,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+--- !u!143 &1522346570 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 4151148409793186511, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
+  m_PrefabInstance: {fileID: 1780530457}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1522346576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522346547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c65a60ce9ee5cc14e9da4100a4459c79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flip: 1
+  flipmousey: 1
+  player: {fileID: 1522346547}
+  char_controller: {fileID: 1522346570}
+  cam: {fileID: 457231182}
+  mouse_Sen: 5
+  movement_speed: 10
+  gravity: -9.8
+  INPUT: {fileID: -944628639613478452, guid: d8e2ca7214d0b634496cb3a5eb3c010b, type: 3}
+  fixkey: 0
+  fixed_key_spd: 0
+  lock_Axis: {x: 1, y: 1}
+--- !u!114 &1522346581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522346547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac2ec438be05e146879c860b61bff57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 457231182}
+  multiplier: 30
 --- !u!1001 &1735694202
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1047,6 +1076,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3239537981674228744, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
+    - {fileID: 4832548439447886667, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7309233173761397320, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
@@ -1058,10 +1088,13 @@ PrefabInstance:
       addedObject: {fileID: 1522346554}
     - targetCorrespondingSourceObject: {fileID: 1010658668609166073, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1522346561}
+      addedObject: {fileID: 1522346581}
     - targetCorrespondingSourceObject: {fileID: 1010658668609166073, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1522346568}
+    - targetCorrespondingSourceObject: {fileID: 1010658668609166073, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1522346576}
     - targetCorrespondingSourceObject: {fileID: 7005883827875253206, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
       insertIndex: -1
       addedObject: {fileID: 457231190}
