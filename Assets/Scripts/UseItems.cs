@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class UseItems : MonoBehaviour
 {
@@ -8,8 +9,9 @@ public class UseItems : MonoBehaviour
     GameObject interacting_obj;
     Itemdata interacting_data;
     [SerializeField]GameObject cam;
-
-    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput"};
+    [SerializeField]GameObject BW_Effect;
+    
+    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput", "colorblindness"};
     bool capsule;
     public float multiplier = 30.0f;
 
@@ -20,7 +22,6 @@ public class UseItems : MonoBehaviour
 
     void Update()
     {
-
         isholding = gameObject.GetComponent<Interact>().isholding;
         interacting_obj = gameObject.GetComponent<Interact>().interacting_with.obj;
         interacting_data = gameObject.GetComponent<Interact>().interacting_with.data;
@@ -46,7 +47,7 @@ public class UseItems : MonoBehaviour
         if (capsule)
         {
             // string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
-            string effect = effect_list[5];
+            string effect = effect_list[6];
             
             if(effect == "rotatecam180")
             {
@@ -83,6 +84,11 @@ public class UseItems : MonoBehaviour
                 }
                 Debug.Log("APAKJKDWDAD");
             }
+            else if(effect == "colorblindness")
+            {
+                BW_Effect.SetActive(true);
+            }
+
             Debug.Log("Used");
             capsule = false;
         }
