@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class UseItems : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class UseItems : MonoBehaviour
     [SerializeField]GameObject cam;
     [SerializeField]GameObject hueshift;
     [SerializeField]GameObject colorblindness;
+    [SerializeField]Material nausea_mat;
     
     string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput", "hueshift", "colorblindness"};
     bool capsule;
@@ -19,6 +21,7 @@ public class UseItems : MonoBehaviour
     void Start()
     {
         capsule = false;
+        nausea_mat.SetFloat("_ActivateNausea", 0f);
     }
 
     void Update()
@@ -48,7 +51,7 @@ public class UseItems : MonoBehaviour
         if (capsule)
         {
             // string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
-            string effect = effect_list[7];
+            string effect = effect_list[6];
             
             if(effect == "rotatecam180")
             {
@@ -83,11 +86,11 @@ public class UseItems : MonoBehaviour
                 {
                     gameObject.GetComponent<FPS>().lock_Axis.y = 0.0f;
                 }
-                Debug.Log("APAKJKDWDAD");
             }
             else if(effect == "hueshift")
             {
                 hueshift.SetActive(true);
+                nausea_mat.SetFloat("_ActivateNausea", 1.0f);
             }
             else if(effect == "colorblindness")
             {
@@ -97,5 +100,14 @@ public class UseItems : MonoBehaviour
             Debug.Log("Used");
             capsule = false;
         }
+    }
+
+    void OnDestroy()
+    {
+        nausea_mat.SetFloat("_ActivateNausea",  0f);        
+    }
+    void OnApplicationQuit()
+    {
+        nausea_mat.SetFloat("_ActivateNausea", 0f);   
     }
 }

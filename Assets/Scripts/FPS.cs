@@ -121,6 +121,6 @@ public class FPS : MonoBehaviour
 
     void OnDisable()
     {
-        INPUT.FindActionMap("Movement").Disable();
+        INPUT.FindActionMap("FPS").Disable();
     }
 }
