@@ -9,9 +9,10 @@ public class UseItems : MonoBehaviour
     GameObject interacting_obj;
     Itemdata interacting_data;
     [SerializeField]GameObject cam;
-    [SerializeField]GameObject BW_Effect;
+    [SerializeField]GameObject hueshift;
+    [SerializeField]GameObject colorblindness;
     
-    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput", "colorblindness"};
+    string[] effect_list = {"rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput", "hueshift", "colorblindness"};
     bool capsule;
     public float multiplier = 30.0f;
 
@@ -47,7 +48,7 @@ public class UseItems : MonoBehaviour
         if (capsule)
         {
             // string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
-            string effect = effect_list[6];
+            string effect = effect_list[7];
             
             if(effect == "rotatecam180")
             {
@@ -84,9 +85,13 @@ public class UseItems : MonoBehaviour
                 }
                 Debug.Log("APAKJKDWDAD");
             }
+            else if(effect == "hueshift")
+            {
+                hueshift.SetActive(true);
+            }
             else if(effect == "colorblindness")
             {
-                BW_Effect.SetActive(true);
+               colorblindness.SetActive(true); 
             }
 
             Debug.Log("Used");
