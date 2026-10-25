@@ -51,7 +51,7 @@ public class UseItems : MonoBehaviour
         if (capsule)
         {
             // string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
-            string effect = effect_list[6];
+            string effect = effect_list[Random.Range(0, effect_list.Length)];
             
             if(effect == "rotatecam180")
             {
