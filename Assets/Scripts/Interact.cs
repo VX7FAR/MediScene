@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Interact : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class Interact : MonoBehaviour
         public Itemdata data;
     }
 
-    public mounter_n_obj interacting_with;
+    public mounter_n_obj inhand;
+    public  mounter_n_obj looking_At;
     [SerializeField] GameObject cam;
     RaycastHit hit;
     float range = 100.0f;
@@ -20,6 +22,24 @@ public class Interact : MonoBehaviour
     public bool isholding = false;
 
     [SerializeField] string[] joblist = { "pizza", "mart", "gas", "cook", "warehouse" };
+
+    [SerializeField]InputActionAsset interaction_input;
+    InputAction pick_n_interact;
+    InputAction use_input;
+    InputAction drop_input;
+
+    void OnEnable()
+    {
+        interaction_input.FindActionMap("Interactions").Enable();
+    }
+
+
+    void Awake()
+    {
+        pick_n_interact = interaction_input.FindActionMap("Interactions").FindAction("Interact");
+        use_input = interaction_input.FindActionMap("Interactions").FindAction("Use");
+        drop_input = interaction_input.FindActionMap("Interactions").FindAction("Drop");
+    }
 
     void Start()
     {
@@ -30,84 +50,71 @@ public class Interact : MonoBehaviour
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
-        if (!isholding)
+        if(Physics.Raycast(ray, out hit, 100f))
         {
-            interacting_with.obj = null;
-            interacting_with.data = null;
-        }
-        //Pick item
-        if (Input.GetKeyDown(KeyCode.F) && !isholding)
-        {
-            if (Physics.Raycast(ray, out hit, range) && hit.collider != null && hit.collider.gameObject.GetComponent<mounter>() != null)
+            if(hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
             {
-                interacting_with.obj = hit.collider.gameObject;
-                interacting_with.data = hit.collider.gameObject.GetComponent<mounter>().itemdata;
-                if (interacting_with.obj.GetComponent<Rigidbody>() != null)
+                looking_At.obj = hit.collider.gameObject;
+                looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
+                if (pick_n_interact.WasPressedThisFrame() && !isholding && looking_At.data.can_pick)
                 {
-                    interacting_with.obj.GetComponent<Rigidbody>().isKinematic = true;
+                    inhand = looking_At;
+                    isholding = true;
                 }
-                isholding = true;
+                if(pick_n_interact.WasPressedThisFrame() && !looking_At.data.can_pick)
+                {
+                    UseItem(looking_At);
+                }
             }
         }
-        //Drop item
-        if (isholding && Input.GetKeyDown(KeyCode.G))
+        else
         {
-            if (interacting_with.obj.GetComponent<Rigidbody>() != null)
-            {
-                interacting_with.obj.GetComponent<Rigidbody>().isKinematic = false;
-            }
-            isholding = false;
-            interacting_with.obj = null;
-            interacting_with.data = null;
+            looking_At.data = null;
+            looking_At.obj = null;
         }
 
-        //UseItem
-        if (isholding && Input.GetKeyDown(KeyCode.Mouse0) && interacting_with.obj != null)
-        {
-            switch (interacting_with.data.obj_type)
-            {
-                case Itemdata.categories.regular:
-                    isholding = false;
-                    break;
-
-                case Itemdata.categories.capsule:
-                    gameObject.GetComponent<UseCapsule>().enabled = true;
-                    isholding = false;
-                    Destroy(interacting_with.obj);
-                    break;
-                case Itemdata.categories.jobtrigger:
-                    // string job = joblist[Random.Range(0, joblist.Length)];
-                    string job = joblist[0];
-
-                    switch (job)
-                    {
-                        case "pizza":
-                            // gameObject.GetComponent<PizzaDelivery>().enabled = true;
-                            Debug.Log("Pizza");
-                            break;
-                        case "mart":
-                            break;
-                        case "cook":
-                            break;
-                        case "gas":
-                            break;
-                        case "warehouse":
-                            break;
-                        default:
-                            Debug.Log("Invalid job");
-                            break;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //Position the item
         if (isholding)
         {
-            interacting_with.obj.transform.position = moveto.transform.position;
-            interacting_with.obj.transform.rotation = moveto.transform.rotation;
+            inhand.obj.transform.position = moveto.transform.position;
+            inhand.obj.transform.rotation = moveto.transform.rotation;
+            if(inhand.obj.GetComponent<Rigidbody>() != null)
+            {
+                inhand.obj.GetComponent<Rigidbody>().isKinematic = true;
+            }
         }
+
+        if(drop_input.WasPressedThisFrame() && isholding && inhand.obj != null)
+        {
+            inhand.obj.GetComponent<Rigidbody>().isKinematic = false;
+            inhand.obj = null;
+            inhand.data = null;
+            isholding = false;
+        }
+
+        if(use_input.WasPressedThisFrame() && isholding)
+        {
+            UseItem(inhand);
+        }
+    }
+
+    void UseItem(mounter_n_obj to_use)
+    {
+        switch (to_use.data.obj_type)
+        {
+            case Itemdata.categories.capsule:
+                gameObject.GetComponent<UseCapsule>().enabled = true;
+                break;
+            case Itemdata.categories.PizzaDelivery:
+                Debug.Log("Pizza!");
+                break;
+            default:
+                Debug.Log("Invalid item to use");
+                break;
+        }
+    }
+
+    void OnDisable()
+    {
+        interaction_input.FindActionMap("Interactions").Disable();
     }
 }

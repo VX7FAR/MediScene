@@ -14,7 +14,7 @@ public class UseCapsule : MonoBehaviour
     [SerializeField] GameObject colorblindness;
     [SerializeField] Material nausea_mat;
 
-    [SerializeField]UniversalRendererData URPrenderdata;
+    [SerializeField] UniversalRendererData URPrenderdata;
     string target = "FullScreenPassRendererFeature";
 
     string[] effect_list = { "rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput", "hueshift", "colorblindness" };
@@ -28,82 +28,64 @@ public class UseCapsule : MonoBehaviour
         capsule = false;
         nausea_mat.SetFloat("_ActivateNausea", 0f);
         isholding = gameObject.GetComponent<Interact>().isholding;
-        interacting_obj = gameObject.GetComponent<Interact>().interacting_with.obj;
-        interacting_data = gameObject.GetComponent<Interact>().interacting_with.data;
+        interacting_obj = gameObject.GetComponent<Interact>().inhand.obj;
+        interacting_data = gameObject.GetComponent<Interact>().inhand.data;
 
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && isholding)
+
+        string effect = effect_list[Random.Range(0, effect_list.Length)];
+        // string effect = effect_list[6];
+
+        if (effect == "rotatecam180")
         {
-            switch (interacting_data.obj_type)
-            {
-                case Itemdata.categories.capsule:
-                    deleteitem();
-                    capsule = true;
-                    break;
-
-                default:
-                    gameObject.GetComponent<UseCapsule>().enabled = false;
-                    break;
-            }
+            cam.transform.Rotate(0f, 0f, 180f);
+            gameObject.GetComponent<FPS>().flipmousey = -1;
+            Debug.Log("Rotatecam180");
         }
-        if (capsule)
+        else if (effect == "toxicair")
         {
-            // string effect = effect_list[Random.Range(0, effect_list.Length - 1)];
-            string effect = effect_list[6];
-
-            if (effect == "rotatecam180")
+            gameObject.GetComponent<toxicair>().enabled = true;
+            Debug.Log("Toxic Air");
+        }
+        else if (effect == "oversteering")
+        {
+            gameObject.GetComponent<FPS>().mouse_Sen *= multiplier;
+            gameObject.GetComponent<FPS>().movement_speed *= multiplier;
+            Debug.Log("Oversteering");
+        }
+        else if (effect == "flipcontrols")
+        {
+            gameObject.GetComponent<FPS>().flip = -1.0f;
+            Debug.Log("Flip Controls");
+        }
+        else if (effect == "fixedkey")
+        {
+            gameObject.GetComponent<FPS>().fixkey = true;
+            Debug.Log("Fixed key");
+        }
+        else if (effect == "lockedinput")
+        {
+            bool blockx = Random.Range(0, 2) == 1;
+            if (blockx)
             {
-                cam.transform.Rotate(0f, 0f, 180f);
-                gameObject.GetComponent<FPS>().flipmousey = -1;
-                Debug.Log("Rotatecam180");
+                gameObject.GetComponent<FPS>().lock_Axis.x = 0.0f;
             }
-            else if (effect == "toxicair")
+            else
             {
-                gameObject.GetComponent<toxicair>().enabled = true;
-                Debug.Log("Toxic Air");
+                gameObject.GetComponent<FPS>().lock_Axis.y = 0.0f;
             }
-            else if (effect == "oversteering")
-            {
-                gameObject.GetComponent<FPS>().mouse_Sen *= multiplier;
-                gameObject.GetComponent<FPS>().movement_speed *= multiplier;
-                Debug.Log("Oversteering");
-            }
-            else if (effect == "flipcontrols")
-            {
-                gameObject.GetComponent<FPS>().flip = -1.0f;
-                Debug.Log("Flip Controls");
-            }
-            else if (effect == "fixedkey")
-            {
-                gameObject.GetComponent<FPS>().fixkey = true;
-                Debug.Log("Fixed key");
-            }
-            else if (effect == "lockedinput")
-            {
-                bool blockx = Random.Range(0, 2) == 1;
-                if (blockx)
-                {
-                    gameObject.GetComponent<FPS>().lock_Axis.x = 0.0f;
-                }
-                else
-                {
-                    gameObject.GetComponent<FPS>().lock_Axis.y = 0.0f;
-                }
-                Debug.Log("Locked input");
-            }
-            else if (effect == "hueshift")
-            {
-                hueshift.SetActive(true);
-                setnausea(true);
-                Debug.Log("Nausea");
-            }
-            else if (effect == "colorblindness")
-            {
-                colorblindness.SetActive(true);
-                Debug.Log("Colorblindness");
-            }
-
-            capsule = false;
+            Debug.Log("Locked input");
+        }
+        else if (effect == "hueshift")
+        {
+            hueshift.SetActive(true);
+            setnausea(true);
+            Debug.Log("Nausea");
+        }
+        else if (effect == "colorblindness")
+        {
+            colorblindness.SetActive(true);
+            Debug.Log("Colorblindness");
         }
         gameObject.GetComponent<UseCapsule>().enabled = false;
 
@@ -119,14 +101,14 @@ public class UseCapsule : MonoBehaviour
 
     void setnausea(bool set_To)
     {
-        foreach(var feature in URPrenderdata.rendererFeatures)
+        foreach (var feature in URPrenderdata.rendererFeatures)
         {
-            if(feature != null && feature.name == target)
+            if (feature != null && feature.name == target)
             {
                 feature.SetActive(set_To);
                 return;
             }
         }
         Debug.Log("Not found");
-    }   
+    }
 }
