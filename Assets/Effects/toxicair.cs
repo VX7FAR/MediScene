@@ -17,8 +17,7 @@ public class toxicair : MonoBehaviour
         }
         else
         {
-            health -= Time.deltaTime;
-            Debug.Log(health);            
+            health -= Time.deltaTime;           
         }
 
         if(health < 0)
