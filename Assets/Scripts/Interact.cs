@@ -14,7 +14,7 @@ public class Interact : MonoBehaviour
 
     public mounter_n_obj inhand;
     public  mounter_n_obj looking_At;
-    [SerializeField] GameObject cam;
+    public GameObject cam;
     RaycastHit hit;
     float range = 100.0f;
     [SerializeField] Transform moveto;
@@ -52,7 +52,7 @@ public class Interact : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit, 100f))
         {
-            if(hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
+            if(hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null && !(hit.collider.GetComponent<mounter>().itemdata is PizzaItemData))
             {
                 looking_At.obj = hit.collider.gameObject;
                 looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
@@ -105,7 +105,11 @@ public class Interact : MonoBehaviour
                 gameObject.GetComponent<UseCapsule>().enabled = true;
                 break;
             case Itemdata.categories.PizzaDelivery:
-                Debug.Log("Pizza!");
+                if(to_use.data.obj_name == "Pizzatrigger")
+                {
+                    gameObject.GetComponent<PizzaDelivery>().enabled = true;
+                    gameObject.GetComponent<Interact>().enabled = false;   
+                }
                 break;
             default:
                 Debug.Log("Invalid item to use");
@@ -115,6 +119,7 @@ public class Interact : MonoBehaviour
 
     void OnDisable()
     {
-        interaction_input.FindActionMap("Interactions").Disable();
+        // interaction_input.FindActionMap("Interactions").Disable();
+        Debug.Log("Interaction script disabled");
     }
 }
