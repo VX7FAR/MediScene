@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Compression;
 using JetBrains.Rider.Unity.Editor;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PizzaDelivery : MonoBehaviour
 {
@@ -27,16 +30,28 @@ public class PizzaDelivery : MonoBehaviour
     InputAction use_input;
     InputAction drop_input;
 
+    public GameObject[] deliver_at;
+    public int boxes = 0;
+    public bool isdelivering;
+    bool new_delivery = false;
+    int previous_delivery;
+    int delivery_index;
+
     void OnEnable()
     {
-        Debug.Log("Enabled");
         interaction_input.FindActionMap("Interactions").Enable();
     }
 
+    void OnTriggerEnter(Collider colliding_to)
+    {
+        if(colliding_to.tag == "DeliverAt" && use_input.WasPressedThisFrame())
+        {
+            DeliverAccomplished(colliding_to.gameObject);
+        }
+    }
 
     void Awake()
     {
-        Debug.Log("Awake()");
         pick_n_interact = interaction_input.FindActionMap("Interactions").FindAction("Interact");
         use_input = interaction_input.FindActionMap("Interactions").FindAction("Use");
         drop_input = interaction_input.FindActionMap("Interactions").FindAction("Drop");
@@ -44,7 +59,6 @@ public class PizzaDelivery : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Started");
         if (gameObject.GetComponent<Interact>().isholding)
         {
             inhand.obj = gameObject.GetComponent<Interact>().inhand.obj;
@@ -55,27 +69,20 @@ public class PizzaDelivery : MonoBehaviour
 
     void Update()
     {
-        if(pick_n_interact.WasPressedThisFrame()){ Debug.Log("Pick n interact");}
-        if(drop_input.WasPressedThisFrame()){ Debug.Log("Pick n interact");}
-        if(use_input.WasPressedThisFrame()){ Debug.Log("Pick n interact");}
-
-        Debug.Log("Update");
+        //BASIC INTERACTION
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
         if(Physics.Raycast(ray, out hit, 100f))
         {
             if(hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
             {
-                Debug.Log("Hit smthn");
                 if(hit.collider.GetComponent<mounter>().itemdata is PizzaItemData)
                 {
-                    Debug.Log("Hit a pizza item");
                     looking_At.obj = hit.collider.gameObject;
                     looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
                     if (pick_n_interact.WasPressedThisFrame() && !isholding && looking_At.data.can_pick)
                     {
                         //Pick in hand
-                        Debug.Log("Is Pizza Itemm, pickable");
                         inhand = looking_At;
                         isholding = true;
                         if(inhand.obj.GetComponent<Rigidbody>() != null)
@@ -90,7 +97,7 @@ public class PizzaDelivery : MonoBehaviour
                     if(pick_n_interact.WasPressedThisFrame() && !looking_At.data.can_pick)
                     {
                         //Dont pick but interact
-                       Debug.Log("Not Picked but interacted");
+                        use(looking_At);
                     }
                 }
             }
@@ -126,7 +133,28 @@ public class PizzaDelivery : MonoBehaviour
         if(use_input.WasPressedThisFrame() && isholding)
         {
             //When using the object in hand
-            Debug.Log("Used picked pizza item");
+            use(inhand);
+        }
+
+        //DELIVERY SYSTEM
+        if(boxes > 0 && new_delivery)
+        {
+            delivery_index = Random.Range(0, deliver_at.Length);
+            deliver_at[delivery_index].SetActive(true);
+            new_delivery = false;
+        }
+        
+        if(boxes < 1)
+        {
+            foreach(GameObject obj in deliver_at)
+            {
+                if(obj != null)
+                {
+                    obj.SetActive(false);
+                }
+            }
+            isdelivering = false;
+            new_delivery = false;
         }
     }
 
@@ -134,12 +162,46 @@ public class PizzaDelivery : MonoBehaviour
     {
         if(touse.data is PizzaItemData pizzadata)
         {
-            Debug.Log(pizzadata.name);
+            switch (pizzadata.Pizza_Item_Category)
+            {
+                case PizzaItemData.pizza_category.pizzabox:
+                    boxes++;
+                    Destroy(touse.obj);
+                    inhand.data = null;
+                    inhand.obj = null;
+                    isholding = false;
+                    return;
+
+                case PizzaItemData.pizza_category.scooter:
+                    Debug.Log("Go Deliver");
+                    isdelivering = boxes > 0 ? true : false;
+                    new_delivery = boxes > 0 ? true : false;
+                    break;
+                
+                case PizzaItemData.pizza_category.deliverat:
+                    if (isdelivering && boxes != 0)
+                    {
+                        boxes--;
+                        touse.obj.SetActive(false);
+                        new_delivery = true;
+                    }
+                    break;
+                
+                default:
+                    Debug.Log("Invalid item");
+                    break;
+            }
         }
         else
         {
             Debug.Log("Not pizza item");
         }
+    }
+
+    void DeliverAccomplished(GameObject delivered_At)
+    {
+        delivered_At.SetActive(false);
+        boxes--;
     }
 
     void OnDisable()

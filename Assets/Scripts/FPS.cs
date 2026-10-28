@@ -59,6 +59,14 @@ public class FPS : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         init_position = gameObject.transform.position;
+
+        foreach(GameObject obj in gameObject.GetComponent<PizzaDelivery>().deliver_at)
+        {
+            if(obj != null)
+            {
+                obj.SetActive(false);
+            }
+        }
     }
 
     void Update()

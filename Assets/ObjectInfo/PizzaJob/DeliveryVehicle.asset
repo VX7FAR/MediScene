@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DeliveryVehicle
   m_EditorClassIdentifier: 
   obj_name: DeliveryVehicle
-  can_pick: 1
+  can_pick: 0
   obj_type: 3
   Pizza_Item_Category: 1
