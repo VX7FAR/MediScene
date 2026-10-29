@@ -211,10 +211,4 @@ public class PizzaDelivery : MonoBehaviour
         delivered_At.SetActive(false);
         boxes--;
     }
-
-    void OnDisable()
-    {
-        interaction_input.FindActionMap("Interactions").Disable();
-        Debug.Log("Interaction script disabled");
-    }
 }

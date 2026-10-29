@@ -116,10 +116,4 @@ public class Interact : MonoBehaviour
                 break;
         }
     }
-
-    void OnDisable()
-    {
-        // interaction_input.FindActionMap("Interactions").Disable();
-        Debug.Log("Interaction script disabled");
-    }
 }
