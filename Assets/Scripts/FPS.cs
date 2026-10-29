@@ -32,8 +32,8 @@ public class FPS : MonoBehaviour
     [SerializeField] float gravity = -9.8f;
     bool onground = false;
 
-    [SerializeField] InputActionAsset INPUT;
-    InputAction wasd_input;
+    PlayerInputManager player_input;
+    Vector2 wasd_target;
     Vector2 wasd_velocity;
     Vector2 smooth_wasd;
 
@@ -45,20 +45,13 @@ public class FPS : MonoBehaviour
     //Locked key effect
     public Vector2 lock_Axis = new Vector2(1.0f,1.0f);
 
-    void Awake()
-    {
-        wasd_input = INPUT.FindActionMap("FPS").FindAction("WASD");
-    }
-
-    void OnEnable()
-    {
-        INPUT.FindActionMap("FPS").Enable();
-    }
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         init_position = gameObject.transform.position;
+
+        player_input = gameObject.GetComponent<PlayerInputManager>();
 
         foreach(GameObject obj in gameObject.GetComponent<PizzaDelivery>().deliver_at)
         {
@@ -73,7 +66,7 @@ public class FPS : MonoBehaviour
     {
         ray = new Ray(player.transform.position, -player.transform.up);
 
-        Vector2 wasd_target = wasd_input.ReadValue<Vector2>();
+        wasd_target = player_input.wasd;
         smooth_wasd = Vector2.SmoothDamp(smooth_wasd, wasd_target, ref wasd_velocity, 0.1f);
 
         inputhorizontal = Input.GetAxis("Mouse X") * mouse_Sen * flip * flipmousey;
@@ -125,10 +118,5 @@ public class FPS : MonoBehaviour
         {
             gameObject.transform.position = init_position;
         }
-    }
-
-    void OnDisable()
-    {
-        INPUT.FindActionMap("FPS").Disable();
     }
 }

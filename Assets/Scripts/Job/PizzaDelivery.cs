@@ -25,11 +25,10 @@ public class PizzaDelivery : MonoBehaviour
 
     public bool isholding = false;
 
-
-    [SerializeField]InputActionAsset interaction_input;
-    InputAction pick_n_interact;
-    InputAction use_input;
-    InputAction drop_input;
+    PlayerInputManager player_input;
+    bool pick_n_interact;
+    bool drop_input;
+    bool use_input;
 
     public GameObject[] deliver_at;
     public int boxes = 0;
@@ -38,28 +37,18 @@ public class PizzaDelivery : MonoBehaviour
     int previous_delivery;
     int delivery_index;
 
-    void OnEnable()
-    {
-        interaction_input.FindActionMap("Interactions").Enable();
-    }
-
     void OnTriggerEnter(Collider colliding_to)
     {
-        if(colliding_to.tag == "DeliverAt" && use_input.WasPressedThisFrame())
+        if(colliding_to.tag == "DeliverAt" && use_input)
         {
             DeliverAccomplished(colliding_to.gameObject);
         }
     }
 
-    void Awake()
-    {
-        pick_n_interact = interaction_input.FindActionMap("Interactions").FindAction("Interact");
-        use_input = interaction_input.FindActionMap("Interactions").FindAction("Use");
-        drop_input = interaction_input.FindActionMap("Interactions").FindAction("Drop");
-    }
-
     void Start()
     {
+        player_input = gameObject.GetComponent<PlayerInputManager>();
+
         if (gameObject.GetComponent<Interact>().isholding)
         {
             inhand.obj = gameObject.GetComponent<Interact>().inhand.obj;
@@ -70,6 +59,10 @@ public class PizzaDelivery : MonoBehaviour
 
     void Update()
     {
+        pick_n_interact = player_input.pick_interact;
+        use_input = player_input.use;
+        drop_input = player_input.drop;
+
         //BASIC INTERACTION
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
@@ -81,7 +74,7 @@ public class PizzaDelivery : MonoBehaviour
                 {
                     looking_At.obj = hit.collider.gameObject;
                     looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
-                    if (pick_n_interact.WasPressedThisFrame() && !isholding && looking_At.data.can_pick)
+                    if (pick_n_interact && !isholding && looking_At.data.can_pick)
                     {
                         //Pick in hand
                         inhand = looking_At;
@@ -95,7 +88,7 @@ public class PizzaDelivery : MonoBehaviour
                             col.enabled = false;
                         }   
                     }
-                    if(pick_n_interact.WasPressedThisFrame() && !looking_At.data.can_pick)
+                    if(pick_n_interact && !looking_At.data.can_pick)
                     {
                         //Dont pick but interact
                         use(looking_At);
@@ -115,7 +108,7 @@ public class PizzaDelivery : MonoBehaviour
             inhand.obj.transform.rotation = moveto.transform.rotation;
         }
 
-        if(drop_input.WasPressedThisFrame() && isholding && inhand.obj != null)
+        if(drop_input && isholding && inhand.obj != null)
         {   
             //Drop
             if(inhand.obj.GetComponent<Rigidbody>() != null)
@@ -131,7 +124,7 @@ public class PizzaDelivery : MonoBehaviour
             isholding = false;
         }
 
-        if(use_input.WasPressedThisFrame() && isholding)
+        if(use_input && isholding)
         {
             //When using the object in hand
             use(inhand);

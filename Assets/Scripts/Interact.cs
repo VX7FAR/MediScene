@@ -23,31 +23,23 @@ public class Interact : MonoBehaviour
 
     [SerializeField] string[] joblist = { "pizza", "mart", "gas", "cook", "warehouse" };
 
-    [SerializeField]InputActionAsset interaction_input;
-    InputAction pick_n_interact;
-    InputAction use_input;
-    InputAction drop_input;
-
-    void OnEnable()
-    {
-        interaction_input.FindActionMap("Interactions").Enable();
-    }
-
-
-    void Awake()
-    {
-        pick_n_interact = interaction_input.FindActionMap("Interactions").FindAction("Interact");
-        use_input = interaction_input.FindActionMap("Interactions").FindAction("Use");
-        drop_input = interaction_input.FindActionMap("Interactions").FindAction("Drop");
-    }
+    PlayerInputManager input_system;
+    
+    bool pick_n_interact;
+    bool use_input;
+    bool drop_input;
 
     void Start()
     {
-
+        input_system = gameObject.GetComponent<PlayerInputManager>();
     }
 
     void Update()
     {
+        pick_n_interact = input_system.pick_interact;
+        use_input = input_system.use;
+        drop_input = input_system.drop;
+
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
         if(Physics.Raycast(ray, out hit, 100f))
@@ -56,12 +48,12 @@ public class Interact : MonoBehaviour
             {
                 looking_At.obj = hit.collider.gameObject;
                 looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
-                if (pick_n_interact.WasPressedThisFrame() && !isholding && looking_At.data.can_pick)
+                if (pick_n_interact && !isholding && looking_At.data.can_pick)
                 {
                     inhand = looking_At;
                     isholding = true;
                 }
-                if(pick_n_interact.WasPressedThisFrame() && !looking_At.data.can_pick)
+                if(use_input && !looking_At.data.can_pick)
                 {
                     UseItem(looking_At);
                 }
@@ -83,7 +75,7 @@ public class Interact : MonoBehaviour
             }
         }
 
-        if(drop_input.WasPressedThisFrame() && isholding && inhand.obj != null)
+        if(drop_input && isholding && inhand.obj != null)
         {
             inhand.obj.GetComponent<Rigidbody>().isKinematic = false;
             inhand.obj = null;
@@ -91,7 +83,7 @@ public class Interact : MonoBehaviour
             isholding = false;
         }
 
-        if(use_input.WasPressedThisFrame() && isholding)
+        if(use_input && isholding)
         {
             UseItem(inhand);
         }
