@@ -17,7 +17,7 @@ public class UseCapsule : MonoBehaviour
     [SerializeField] UniversalRendererData URPrenderdata;
     string target = "FullScreenPassRendererFeature";
 
-    string[] effect_list = { "rotatecam180", "toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput", "hueshift", "colorblindness" };
+    string[] effect_list = {"toxicair", "oversteering", "flipcontrols", "fixedkey", "lockedinput", "hueshift", "colorblindness" };
     bool capsule;
     public float multiplier = 30.0f;
     bool used = true;
