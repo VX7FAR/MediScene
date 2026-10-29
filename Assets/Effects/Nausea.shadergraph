@@ -301,6 +301,9 @@
     "m_SubDatas": [],
     "m_ActiveTargets": [
         {
+            "m_Id": "c51759d3db154e098e2de81c050af52f"
+        },
+        {
             "m_Id": "303bd35ea7924ecd818846b9f89b9f7c"
         }
     ]
@@ -562,6 +565,12 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.Rendering.CustomRenderTexture.ShaderGraph.CustomTextureSubTarget",
+    "m_ObjectId": "278d85fe7c04455a8a65554f9d647b05"
 }
 
 {
@@ -1901,6 +1910,16 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": true
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.Rendering.CustomRenderTexture.ShaderGraph.CustomRenderTextureTarget",
+    "m_ObjectId": "c51759d3db154e098e2de81c050af52f",
+    "m_ActiveSubTarget": {
+        "m_Id": "278d85fe7c04455a8a65554f9d647b05"
+    },
+    "m_CustomEditorGUI": ""
 }
 
 {

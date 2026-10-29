@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374441c7e305eff4ea24a571ddd961f1, type: 3}
   m_Name: DeliverAt
   m_EditorClassIdentifier: 
-  obj_name: 
+  obj_name: DeliverAt
   can_pick: 0
-  obj_type: 0
-  Pizza_Item_Category: 0
+  obj_type: 3
+  Pizza_Item_Category: 3

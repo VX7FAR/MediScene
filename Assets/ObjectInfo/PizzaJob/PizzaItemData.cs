@@ -7,7 +7,7 @@ public class PizzaItemData : Itemdata
 {
     public enum pizza_category
     {
-        pizzabox, scooter, finishjob, deliverat, takeitem
+        pizzabox, scooter, finishjob, deliverat, SpawnBox
     }
     public pizza_category Pizza_Item_Category;
 }

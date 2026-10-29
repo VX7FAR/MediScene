@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6498314222897675842}
   - component: {fileID: 5583198822315058245}
   - component: {fileID: 6756675074441273594}
+  - component: {fileID: 2505301350626690327}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -155,6 +156,13 @@ MonoBehaviour:
   cam: {fileID: 7005883827875253206}
   moveto: {fileID: 501985703102468269}
   isholding: 0
+  joblist:
+  - pizza
+  - mart
+  - gas
+  - cook
+  - warehouse
+  interaction_input: {fileID: -944628639613478452, guid: d8e2ca7214d0b634496cb3a5eb3c010b, type: 3}
 --- !u!114 &6498314222897675842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +170,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1010658668609166073}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aac2ec438be05e146879c860b61bff57, type: 3}
   m_Name: 
@@ -170,6 +178,8 @@ MonoBehaviour:
   cam: {fileID: 7005883827875253206}
   hueshift: {fileID: 0}
   colorblindness: {fileID: 0}
+  nausea_mat: {fileID: 2100000, guid: 6d78c01e4daf40247b52b13257b2ebd7, type: 2}
+  URPrenderdata: {fileID: 11400000, guid: 597fd0e0aee154f47bfa8cb764021548, type: 2}
   multiplier: 30
 --- !u!114 &5583198822315058245
 MonoBehaviour:
@@ -208,6 +218,25 @@ MonoBehaviour:
   fixkey: 0
   fixed_key_spd: 0
   lock_Axis: {x: 1, y: 1}
+--- !u!114 &2505301350626690327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010658668609166073}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0741ed18cf6c0ac4cbe2841b5f1eabf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 7005883827875253206}
+  moveto: {fileID: 501985703102468269}
+  isholding: 0
+  interaction_input: {fileID: -944628639613478452, guid: d8e2ca7214d0b634496cb3a5eb3c010b, type: 3}
+  deliver_at: []
+  boxes: 0
+  isdelivering: 0
 --- !u!1 &3408384381318459306
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7005883827875253206}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.83000004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

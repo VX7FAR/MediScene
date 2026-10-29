@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 
 public class PizzaDelivery : MonoBehaviour
 {
+    [SerializeField]GameObject job_manager;
     public struct mounter_n_obj
     {
         public GameObject obj;
@@ -187,6 +188,13 @@ public class PizzaDelivery : MonoBehaviour
                     }
                     break;
                 
+                case PizzaItemData.pizza_category.SpawnBox:
+                    if(boxes == 0)
+                    {
+                        job_manager.GetComponent<jobmanager>().spawn_pizza_box = true;
+                    }
+                    break;
+
                 default:
                     Debug.Log("Invalid item");
                     break;
