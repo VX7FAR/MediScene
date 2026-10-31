@@ -11,6 +11,7 @@ public class PlayerInputManager : MonoBehaviour
     InputAction drop_input;
     InputAction wasd_input;
     InputAction drive_input;
+    InputAction sprint_input;
 
     public bool lockmovement;
 
@@ -19,6 +20,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool drop {get; private set;}
     public Vector2 wasd {get; private set;}
     public bool drive {get; private set;}
+    public bool sprint {get; private set;}
 
 
     void OnEnable()
@@ -34,6 +36,7 @@ public class PlayerInputManager : MonoBehaviour
         drop_input = interaction_input.FindActionMap("Interactions").FindAction("Drop");
         drive_input = interaction_input.FindActionMap("Interactions").FindAction("Drive");
         wasd_input = interaction_input.FindActionMap("FPS").FindAction("WASD");
+        sprint_input = interaction_input.FindActionMap("FPS").FindAction("Sprint");
     }
 
     void Update()
@@ -44,6 +47,7 @@ public class PlayerInputManager : MonoBehaviour
         drive = drive_input.WasPressedThisFrame();
 
         wasd = lockmovement ? new Vector2(0.0f,0.0f) : wasd_input.ReadValue<Vector2>();
+        sprint = sprint_input.IsPressed();
     }
 
     void OnDisable()

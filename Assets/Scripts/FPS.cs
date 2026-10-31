@@ -22,9 +22,17 @@ public class FPS : MonoBehaviour
 
     //Movement
     public float movement_speed;
+    public float default_speed;
     float move_z;       //Forward n backward
     float move_x;       //Left n right
     UnityEngine.Vector3 move;
+
+    public bool cansprint;
+    public float sprint_multiplier;
+    public float sprintspeed;
+    public bool skates;
+    public float oversteer = 0.0f;
+    public bool do_oversteer;
 
     //Gravity
     RaycastHit hit;
@@ -60,10 +68,23 @@ public class FPS : MonoBehaviour
                 obj.SetActive(false);
             }
         }
+
+        sprintspeed = default_speed * sprint_multiplier;
     }
 
     void Update()
     {
+        cansprint = player_input.sprint;
+        mouse_Sen = do_oversteer ? oversteer : 5.0f;
+        if (cansprint)
+        {
+            movement_speed = sprintspeed + (sprintspeed * (skates ? 1.0f : 0.0f)) + oversteer;
+        }
+        else
+        {
+            movement_speed = default_speed + oversteer;
+        }
+
         ray = new Ray(player.transform.position, -player.transform.up);
 
         wasd_target = player_input.wasd;

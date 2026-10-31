@@ -34,7 +34,7 @@ public class UseCapsule : MonoBehaviour
 
 
         string effect = effect_list[Random.Range(0, effect_list.Length)];
-        // string effect = effect_list[6];
+        // string effect = effect_list[1];
 
         if (effect == "rotatecam180")
         {
@@ -49,8 +49,9 @@ public class UseCapsule : MonoBehaviour
         }
         else if (effect == "oversteering")
         {
-            gameObject.GetComponent<FPS>().mouse_Sen *= multiplier;
-            gameObject.GetComponent<FPS>().movement_speed *= multiplier;
+            gameObject.GetComponent<FPS>().oversteer = multiplier;
+            gameObject.GetComponent<FPS>().do_oversteer = true;
+            gameObject.GetComponent<FPS>().sprintspeed *= multiplier; 
             Debug.Log("Oversteering");
         }
         else if (effect == "flipcontrols")

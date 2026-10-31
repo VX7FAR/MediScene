@@ -96,6 +96,7 @@ public class Interact : MonoBehaviour
             case Itemdata.categories.capsule:
                 gameObject.GetComponent<UseCapsule>().enabled = true;
                 break;
+            
             case Itemdata.categories.PizzaDelivery:
                 if(to_use.data.obj_name == "Pizzatrigger")
                 {
@@ -103,6 +104,13 @@ public class Interact : MonoBehaviour
                     gameObject.GetComponent<Interact>().enabled = false;   
                 }
                 break;
+
+            case Itemdata.categories.rollerskates:
+                gameObject.GetComponent<FPS>().sprintspeed *= 2.0f;
+                gameObject.GetComponent<FPS>().skates = true;
+                Destroy(to_use.obj);
+                break;
+
             default:
                 Debug.Log("Invalid item to use");
                 break;

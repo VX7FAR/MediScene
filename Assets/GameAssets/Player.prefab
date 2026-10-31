@@ -180,7 +180,7 @@ MonoBehaviour:
   colorblindness: {fileID: 0}
   nausea_mat: {fileID: 2100000, guid: 6d78c01e4daf40247b52b13257b2ebd7, type: 2}
   URPrenderdata: {fileID: 11400000, guid: 597fd0e0aee154f47bfa8cb764021548, type: 2}
-  multiplier: 30
+  multiplier: 70
 --- !u!114 &5583198822315058245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +213,13 @@ MonoBehaviour:
   cam: {fileID: 7005883827875253206}
   mouse_Sen: 5
   movement_speed: 10
+  default_speed: 10
+  cansprint: 0
+  sprint_multiplier: 2
+  sprintspeed: 0
+  skates: 0
+  oversteer: 0
+  do_oversteer: 0
   gravity: -9.8
   fixkey: 0
   fixed_key_spd: 0
@@ -249,6 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interaction_input: {fileID: -944628639613478452, guid: d8e2ca7214d0b634496cb3a5eb3c010b, type: 3}
+  lockmovement: 0
 --- !u!1 &3408384381318459306
 GameObject:
   m_ObjectHideFlags: 0
