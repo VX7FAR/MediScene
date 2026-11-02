@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,57 +8,55 @@ using UnityEngine.Splines;
 
 public class vehicleAI : MonoBehaviour
 {
-    [SerializeField]SplineContainer path;
-    [SerializeField, Range(0f,1f)]float progress;
+    [SerializeField]Transform start_At;
 
-    [SerializeField]float carspeed;
-    [SerializeField]float lookAhead;
-    [SerializeField]float turn_speed = 15f;
-    Quaternion target;
+    [SerializeField]float speed;
+    GameObject at;
+    
+    Transform move_to;
+    GameObject next;
+    Vector3 direction;
 
-    bool reached = false;
-    Vector3 to_knot;
+    bool takedecision = false;
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.GetComponent<Waypoint>() != null)
+        {
+            at = other.gameObject;
+            takedecision = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.GetComponent<Waypoint>() != null && at == other.gameObject)
+        {
+            takedecision = false;
+        }
+    }
+
     void Start()
     {
-        to_knot = path.transform.TransformPoint((Vector3)path.Spline[2].Position);
+        gameObject.transform.position = start_At.transform.position;
     }
-    void FixedUpdate()
+
+    void Update()
     {
-        if (path == null)
+        if (takedecision)
         {
-            return;
+            GameObject[] change_to = at.GetComponent<Waypoint>().next_waypoint;
+            if(change_to.Length != 0)
+            {
+                next = change_to[UnityEngine.Random.Range(0, change_to.Length)];
+                move_to = next.transform;   
+            }
+            Debug.Log("Move to: " + next.name);
+            takedecision = false;
         }
 
-        if(Vector3.Distance(to_knot, gameObject.transform.position) < 1f)
-        {
-            Debug.Log("Reached");
-            reached = true;
-        }
-
-        if (reached)
-        {
-            int to = UnityEngine.Random.Range(0,3);
-            to_knot = path.transform.TransformPoint((Vector3)path.Spline[to].Position);
-            reached = false;
-        }
-
-        Vector3 position = path.EvaluatePosition(progress);
-        Vector3 direction = path.EvaluateTangent(progress);
-        // Vector3 target_position = path.EvaluatePosition(progress + lookAhead);   //Not yet being used
-        Vector3 target_direction = path.EvaluateTangent((progress + lookAhead) > 1.0f ? 0f : progress + lookAhead);
-
-        progress += carspeed *Time.fixedDeltaTime;
-        // if(progress > 1.0f)
-        // {
-        //     progress = 0.0f;
-        // }
-
-        transform.position = position;
-
-        if(target_direction.sqrMagnitude > 0.0001f)
-        {
-            target = Quaternion.LookRotation(target_direction, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, turn_speed * Time.fixedDeltaTime);    
-        }
+        Quaternion rotate_to = Quaternion.LookRotation(move_to.position - transform.position);
+        
+        transform.rotation = rotate_to;
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
-}   
+}
