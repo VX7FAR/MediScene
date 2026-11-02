@@ -8,6 +8,7 @@ TagManager:
   - road
   - DeliverAt
   - drivable
+  - car
   layers:
   - Default
   - TransparentFX

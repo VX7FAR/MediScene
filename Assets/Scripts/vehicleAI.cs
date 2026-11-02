@@ -47,10 +47,10 @@ public class vehicleAI : MonoBehaviour
         Vector3 target_direction = path.EvaluateTangent((progress + lookAhead) > 1.0f ? 0f : progress + lookAhead);
 
         progress += carspeed *Time.fixedDeltaTime;
-        if(progress > 1.0f)
-        {
-            progress = 0.0f;
-        }
+        // if(progress > 1.0f)
+        // {
+        //     progress = 0.0f;
+        // }
 
         transform.position = position;
 
