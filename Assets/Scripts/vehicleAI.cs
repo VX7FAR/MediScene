@@ -20,6 +20,10 @@ public class vehicleAI : MonoBehaviour
     Vector3 direction;
 
     bool takedecision = false;
+
+    Ray frontray;
+    RaycastHit hit;
+
     void OnTriggerEnter(Collider other)
     {
         if(other.GetComponent<Waypoint>() != null)
@@ -44,6 +48,7 @@ public class vehicleAI : MonoBehaviour
 
     void Update()
     {
+
         if (takedecision)
         {
             List<GameObject> change_to = at.GetComponent<Waypoint>().next_waypoint;
@@ -60,6 +65,19 @@ public class vehicleAI : MonoBehaviour
                 move = false;
             }
         }
+
+
+        frontray = new Ray(gameObject.transform.position, gameObject.transform.forward);
+        if(Physics.Raycast(frontray, out hit, 8f))
+        {
+            move = hit.collider.tag == "car" && hit.distance < 15f ? false : true;
+        
+        }
+        else
+        {
+            move = true;
+        }
+
 
         if (move)
         {
