@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    public GameObject[] next_waypoint;
+    public List<GameObject> next_waypoint;
 
     void OnDrawGizmos()
     {
@@ -19,14 +19,22 @@ public class Waypoint : MonoBehaviour
 
         foreach(GameObject point in next_waypoint)
         {
-            Vector3 direction = point.transform.position - gameObject.transform.position;
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            float distance = Vector3.Distance(gameObject.transform.position, point.transform.position);
+            if(point != null)
+            {
+                Vector3 direction = point.transform.position - gameObject.transform.position;
+                Quaternion rotation = Quaternion.LookRotation(direction);
+                float distance = Vector3.Distance(gameObject.transform.position, point.transform.position);
 
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(gameObject.transform.position, point.transform.position);
-            Gizmos.color = Color.blue;
-            Gizmos.DrawMesh(arrow, gameObject.transform.position + direction.normalized * (distance / 2), rotation );
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(gameObject.transform.position, point.transform.position);
+                Gizmos.color = Color.blue;
+                Gizmos.DrawMesh(arrow, gameObject.transform.position + direction.normalized * (distance / 2), rotation );
+            }
         }
+    }
+
+    void Start()
+    {
+        next_waypoint.RemoveAll(obj => obj == null);
     }
 }

@@ -13,6 +13,8 @@ public class vehicleAI : MonoBehaviour
     [SerializeField]float speed;
     GameObject at;
     
+    bool move;
+
     Transform move_to;
     GameObject next;
     Vector3 direction;
@@ -44,19 +46,28 @@ public class vehicleAI : MonoBehaviour
     {
         if (takedecision)
         {
-            GameObject[] change_to = at.GetComponent<Waypoint>().next_waypoint;
-            if(change_to.Length != 0)
+            List<GameObject> change_to = at.GetComponent<Waypoint>().next_waypoint;
+            if(change_to.Count != 0 && change_to != null)
             {
-                next = change_to[UnityEngine.Random.Range(0, change_to.Length)];
+                next = change_to[UnityEngine.Random.Range(0, change_to.Count)];
                 move_to = next.transform;   
+                Debug.Log("Move to: " + next.name);
+                takedecision = false;
+                move = true;
             }
-            Debug.Log("Move to: " + next.name);
-            takedecision = false;
+            else
+            {
+                move = false;
+            }
         }
 
-        Quaternion rotate_to = Quaternion.LookRotation(move_to.position - transform.position);
-        
-        transform.rotation = rotate_to;
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        if (move)
+        {
+            Vector3 direction = move_to.transform.position - transform.position;
+            quaternion target_rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target_rotation, 5f * Time.deltaTime);
+
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
     }
 }
