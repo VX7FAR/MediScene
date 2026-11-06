@@ -9,6 +9,7 @@ TagManager:
   - DeliverAt
   - drivable
   - car
+  - shopshelf
   layers:
   - Default
   - TransparentFX
