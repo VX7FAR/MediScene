@@ -6,6 +6,8 @@ public class shelf_action : MonoBehaviour
 {
     public List<GameObject> itemlist;
     bool take;
+    bool takemore = true;
+    bool firstfilled;
 
     public bool takeitem(GameObject giveto)
     {
@@ -14,9 +16,22 @@ public class shelf_action : MonoBehaviour
         npc giveto_npc = giveto.GetComponent<npc>();
         if (take)
         {
-            GameObject item_given = Instantiate(itemlist[Random.Range(0, itemlist.Count)], giveto_npc.hold_At.transform.position, Quaternion.identity);
-            giveto_npc.inventory.Add(item_given);
-            item_given.transform.SetParent(giveto_npc.hold_At);
+            while(giveto_npc.inventory.Count < 4 && takemore)
+            {
+                GameObject item_given = Instantiate(itemlist[Random.Range(0, itemlist.Count)], giveto_npc.hold_At.transform.position, Quaternion.identity);
+                giveto_npc.inventory.Add(item_given);
+                if (firstfilled)
+                {
+                    item_given.transform.position = giveto.transform.position;
+                    item_given.transform.SetParent(giveto.transform);
+                }
+                else
+                {
+                item_given.transform.SetParent(giveto_npc.hold_At);
+                }
+                takemore = Random.Range(0,2) == 0;
+                firstfilled = true;
+            }
             return true;
         }
 

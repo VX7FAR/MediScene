@@ -10,7 +10,7 @@ public class npc : MonoBehaviour
 
     [SerializeField]Transform navigator;
     [SerializeField]Transform[] shelf;
-    [SerializeField]Transform counter;
+    [SerializeField]GameObject counter;
     [SerializeField]Transform leave;
 
     public List<GameObject> inventory;
@@ -31,6 +31,12 @@ public class npc : MonoBehaviour
             delaystarted = true;
             StartCoroutine(takeitem(other.gameObject));
         }
+        else if(other.tag == "counter")
+        {
+            Debug.Log("Checkout");
+            other.GetComponent<counter>().placeitem(gameObject);
+            moveto(transform.position);
+        }
     }
 
     void Start()
@@ -49,13 +55,18 @@ public class npc : MonoBehaviour
         yield return new WaitForSeconds(2);
         if (obj.GetComponent<shelf_action>().takeitem(gameObject))
         {
-            moveto(counter.position);
+            moveto(counter.transform.position);
         }
         else
         {
             moveto(leave.position);
         }
-        moveto(counter.position);
+        moveto(counter.transform.position);
+
+        if(inventory.Count > 3)
+        {
+            inventory.RemoveRange(3, inventory.Count - 3);
+        }
     }
 
     public void moveto(Vector3 position)
