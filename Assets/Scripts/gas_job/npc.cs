@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class npc : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class npc : MonoBehaviour
     [SerializeField]Transform navigator;
     [SerializeField]Transform[] shelf;
     [SerializeField]Transform counter;
+    [SerializeField]Transform leave;
+
+    public List<GameObject> inventory;
+    public Transform hold_At;
+
+    bool delaystarted;
 
     void OnTriggerEnter(Collider other)
     {
@@ -17,11 +24,12 @@ public class npc : MonoBehaviour
         {
             moveto(shelf[Random.Range(0, shelf.Length)].position);
         }
-        else if(other.tag == "shopshelf")
+        else if(other.tag == "shopshelf" && !delaystarted)
         {
             //Call shelf picker here
             Debug.Log("Shelf pick");
-            StartCoroutine(takeitem());
+            delaystarted = true;
+            StartCoroutine(takeitem(other.gameObject));
         }
     }
 
@@ -36,9 +44,17 @@ public class npc : MonoBehaviour
         
     }
 
-    IEnumerator takeitem()
+    IEnumerator takeitem(GameObject obj)
     {
         yield return new WaitForSeconds(2);
+        if (obj.GetComponent<shelf_action>().takeitem(gameObject))
+        {
+            moveto(counter.position);
+        }
+        else
+        {
+            moveto(leave.position);
+        }
         moveto(counter.position);
     }
 
