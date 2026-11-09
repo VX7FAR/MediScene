@@ -8,10 +8,20 @@ public class counter : MonoBehaviour
 {
     [SerializeField]List<Transform> sort_At;
 
+    bool customer_waiting = false;
+
+    void OnTriggerEnter(Collider col)
+    {
+        if(col.tag == "NPC")
+        {
+            customer_waiting = true;
+        }
+    }
+
     public void placeitem(GameObject item_giver)
     {
-        npc npc = item_giver.GetComponent<npc>();
-        List<GameObject> itemlist = item_giver.GetComponent<npc>().inventory;
+        gasNPC npc = item_giver.GetComponent<gasNPC>();
+        List<GameObject> itemlist = item_giver.GetComponent<gasNPC>().inventory;
         for(int i = 0; i < npc.inventory.Count; i++)
         {
             itemlist[i].transform.SetParent(null);

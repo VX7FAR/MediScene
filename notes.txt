@@ -1,0 +1,53 @@
+Effects:
+180 Vision		/
+locked movement		/
+random input stops working	/
+teleport to random position
+oversteering		/
+colour blindness
+toxic outside air	/
+
+tasks:
+mart (restock, clean, counter)
+gas station (fill fuel, sell items)
+warehouse (move boxes, take count of items, print package info)
+pizzeria (deliver pizza)	/
+restaurant kitchen (cook)
+
+misc:
+pawnshop
+park
+
+twolane : 7m wide, 0.5m footpath on both sides
+
+
+0.133628 m
+
+need to make;
+baseplate
+tall building for sea side (yellow)
+hospital building	(red)
+park assets	(green)
+mart assets	(lime)
+coffee	(brown)
+house assets	(banana)
+pawnshop	(blue)
+meatshop (ex)	(dark red)
+botanical garden
+townhall	(orange)
+
+optimization:
+occlusion culling
+baked lighting
+AI calculation ticks and make sure they dont work simultaneously
+disable animations when character not looking
+
+JOB MAKING PROCEDURE:
+- create new itemdata for the specific job
+- assign a scriptable object of base info and assign it to an object to act as job trigger
+- keep the item category to jobtrigger
+- create a new script for doing the specific job
+- in interact.cs edit the useitem() method to be able to interact and trigger the specific job
+- also disable the interact.cs script and enable the job related script
+- add job management elements in jobmanager.cs script
+- write the new code for the job in newwly created job script

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class npc : MonoBehaviour
+public class gasNPC : MonoBehaviour
 {
     NavMeshAgent agent;
 

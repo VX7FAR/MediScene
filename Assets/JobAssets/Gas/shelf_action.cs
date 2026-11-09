@@ -13,7 +13,7 @@ public class shelf_action : MonoBehaviour
     {
         take = Random.Range(1,11) > 2; 
         // take = true;
-        npc giveto_npc = giveto.GetComponent<npc>();
+        gasNPC giveto_npc = giveto.GetComponent<gasNPC>();
         if (take)
         {
             while(giveto_npc.inventory.Count < 4 && takemore)

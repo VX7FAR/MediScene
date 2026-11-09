@@ -6,10 +6,16 @@ using UnityEngine;
 public class jobmanager : MonoBehaviour
 {
     [SerializeField]GameObject player;
-    
+
+
+    [Header("Pizza Delivery")]     
     [SerializeField]GameObject pizzabox;
     [SerializeField]Transform spawn_pizza_At;
     public bool spawn_pizza_box = false;
+    
+
+    [Header("Gas Station job")]
+    [SerializeField]gasNPC gas_ai;
     
 
     void Update()

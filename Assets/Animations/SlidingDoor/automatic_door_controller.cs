@@ -11,16 +11,15 @@ public class automatic_door_controller : MonoBehaviour
 
     void OnTriggerStay(Collider human)
     {
-        if (human.tag == "Player")
+        if (open_for.Contains(human.tag))
         {
             open = true;
-            Debug.Log(open);
         }
     }
 
     void OnTriggerExit(Collider human)
     {
-        if(human.tag == "Player")
+        if(open_for.Contains(human.tag))    
         {
             open = false;
         }
@@ -35,7 +34,6 @@ public class automatic_door_controller : MonoBehaviour
     void Update()
     {
         door_animation_controller.SetBool("open", open);
-        Debug.Log(open);
     }
 
     public void toggle_animator(int set)

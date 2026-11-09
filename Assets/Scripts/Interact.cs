@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -13,7 +14,7 @@ public class Interact : MonoBehaviour
     }
 
     public mounter_n_obj inhand;
-    public  mounter_n_obj looking_At;
+    public mounter_n_obj looking_At;
     public GameObject cam;
     RaycastHit hit;
     float range = 100.0f;
@@ -24,7 +25,7 @@ public class Interact : MonoBehaviour
     [SerializeField] string[] joblist = { "pizza", "mart", "gas", "cook", "warehouse" };
 
     PlayerInputManager input_system;
-    
+
     bool pick_n_interact;
     bool use_input;
     bool drop_input;
@@ -42,20 +43,23 @@ public class Interact : MonoBehaviour
 
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
-        if(Physics.Raycast(ray, out hit, 100f))
+        if (Physics.Raycast(ray, out hit, 100f))
         {
-            if(hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null && !(hit.collider.GetComponent<mounter>().itemdata is PizzaItemData))
+            if (hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
             {
-                looking_At.obj = hit.collider.gameObject;
-                looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
-                if (pick_n_interact && !isholding && looking_At.data.can_pick)
+                if (typeof(Itemdata) == hit.collider.GetComponent<mounter>().itemdata.GetType())
                 {
-                    inhand = looking_At;
-                    isholding = true;
-                }
-                if(use_input && !looking_At.data.can_pick)
-                {
-                    UseItem(looking_At);
+                    looking_At.obj = hit.collider.gameObject;
+                    looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
+                    if (pick_n_interact && !isholding && looking_At.data.can_pick)
+                    {
+                        inhand = looking_At;
+                        isholding = true;
+                    }
+                    if (use_input && !looking_At.data.can_pick)
+                    {
+                        UseItem(looking_At);
+                    }
                 }
             }
         }
@@ -69,21 +73,25 @@ public class Interact : MonoBehaviour
         {
             inhand.obj.transform.position = moveto.transform.position;
             inhand.obj.transform.rotation = moveto.transform.rotation;
-            if(inhand.obj.GetComponent<Rigidbody>() != null)
+            if (inhand.obj.GetComponent<Rigidbody>() != null)
             {
                 inhand.obj.GetComponent<Rigidbody>().isKinematic = true;
             }
         }
 
-        if(drop_input && isholding && inhand.obj != null)
+        if (drop_input && isholding && inhand.obj != null)
         {
-            inhand.obj.GetComponent<Rigidbody>().isKinematic = false;
+            if (inhand.obj.GetComponent<Rigidbody>() != null)
+            {
+                inhand.obj.GetComponent<Rigidbody>().isKinematic = false;
+            }
+
             inhand.obj = null;
             inhand.data = null;
             isholding = false;
         }
 
-        if(use_input && isholding)
+        if (use_input && isholding)
         {
             UseItem(inhand);
         }
@@ -96,12 +104,18 @@ public class Interact : MonoBehaviour
             case Itemdata.categories.capsule:
                 gameObject.GetComponent<UseCapsule>().enabled = true;
                 break;
-            
-            case Itemdata.categories.PizzaDelivery:
-                if(to_use.data.obj_name == "Pizzatrigger")
+
+            case Itemdata.categories.jobtrigger:            //Starts pizza delivery job
+                if (to_use.data.obj_name == "Pizzatrigger")
                 {
                     gameObject.GetComponent<PizzaDelivery>().enabled = true;
-                    gameObject.GetComponent<Interact>().enabled = false;   
+                    gameObject.GetComponent<Interact>().enabled = false;
+                }
+                else if(to_use.data.obj_name == "Gasjob")   //Starts gas station job
+                {
+                    Debug.Log("Gas job start");
+                    gameObject.GetComponent<GasJob>().enabled = true;
+                    gameObject.GetComponent<Interact>().enabled = false;
                 }
                 break;
 
