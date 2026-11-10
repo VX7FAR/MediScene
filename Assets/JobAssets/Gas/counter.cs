@@ -39,6 +39,7 @@ public class counter : MonoBehaviour
             itemlist[i].GetComponent<BoxCollider>().enabled = true;
             customer_waiting = true;
         }
+        npc.inventory.Clear();
     }
 
     void FixedUpdate()
@@ -57,7 +58,8 @@ public class counter : MonoBehaviour
             playerdata.GetComponent<playerdata>().money += item_number * 3;
             item_cashed = -5;
             item_number = 0;
-            customer.GetComponent<gasNPC>().moveto(customer.GetComponent<gasNPC>().leave.position);
+            int leaveto = Random.Range(0,2);
+            customer.GetComponent<gasNPC>().moveto(customer.GetComponent<gasNPC>().leave[leaveto].position);
             customer.GetComponent<gasNPC>().isleaving = true;
         }
     }

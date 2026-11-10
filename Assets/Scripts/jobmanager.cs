@@ -15,8 +15,9 @@ public class jobmanager : MonoBehaviour
     
 
     [Header("Gas Station job")]
-    [SerializeField]gasNPC gas_ai;
-    
+    [SerializeField]GameObject prefab_gas_ai;
+    gasNPC gas_ai;
+    [SerializeField]Transform[] spawn_at;
 
     void Update()
     {

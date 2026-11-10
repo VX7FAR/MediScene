@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -11,7 +13,9 @@ public class gasNPC : MonoBehaviour
     [SerializeField]Transform navigator;
     [SerializeField]Transform[] shelf;
     [SerializeField]GameObject counter;
-    public Transform leave;
+    public Transform[] leave;
+
+    public Transform[] spawn_At;
 
     public List<GameObject> inventory;
     public Transform hold_At;
@@ -24,7 +28,7 @@ public class gasNPC : MonoBehaviour
     {
         if(other.tag == "shelfnavigator" && !isleaving)
         {
-            moveto(shelf[Random.Range(0, shelf.Length)].position);
+            moveto(shelf[UnityEngine.Random.Range(0, shelf.Length)].position);
         }
         else if(other.tag == "shopshelf" && !delaystarted && !isleaving)
         {
@@ -39,6 +43,13 @@ public class gasNPC : MonoBehaviour
             other.GetComponent<counter>().placeitem(gameObject);
             moveto(transform.position);
         }
+        else if(isleaving && other.tag == "dns_npc")
+        {
+            GameObject obj = Instantiate(gameObject, spawn_At[UnityEngine.Random.Range(0,2)].position, Quaternion.identity);
+            obj.SetActive(false);
+            obj.SetActive(true);
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -47,6 +58,11 @@ public class gasNPC : MonoBehaviour
         moveto(navigator.position);
     }
 
+    void OnEnable()
+    {
+        delaystarted = false;
+        isleaving = false;
+    }
 
     IEnumerator takeitem(GameObject obj)
     {
@@ -57,13 +73,18 @@ public class gasNPC : MonoBehaviour
         }
         else
         {
-            moveto(leave.position);
+            moveto(leave[0].position);
         }
         moveto(counter.transform.position);
 
         if(inventory.Count > 3)
         {
             inventory.RemoveRange(3, inventory.Count - 3);
+        }
+        if(inventory.Count == 0)
+        {
+            moveto(leave[UnityEngine.Random.Range(0, leave.Count())].position);
+            isleaving = true;
         }
     }
 
