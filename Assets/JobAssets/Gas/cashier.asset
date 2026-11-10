@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2529072012ba7c4ab686a2ccc03d56e, type: 3}
   m_Name: cashier
   m_EditorClassIdentifier: 
-  obj_name: 
+  obj_name: cashier
   can_pick: 0
-  obj_type: 0
-  gasitem: 0
+  obj_type: 6
+  gasitem: 1

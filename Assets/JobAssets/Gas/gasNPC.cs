@@ -18,20 +18,22 @@ public class gasNPC : MonoBehaviour
 
     bool delaystarted;
 
+    public bool isleaving;
+
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "shelfnavigator")
+        if(other.tag == "shelfnavigator" && !isleaving)
         {
             moveto(shelf[Random.Range(0, shelf.Length)].position);
         }
-        else if(other.tag == "shopshelf" && !delaystarted)
+        else if(other.tag == "shopshelf" && !delaystarted && !isleaving)
         {
             //Call shelf picker here
             Debug.Log("Shelf pick");
             delaystarted = true;
             StartCoroutine(takeitem(other.gameObject));
         }
-        else if(other.tag == "counter")
+        else if(other.tag == "counter" && !isleaving)
         {
             Debug.Log("Checkout");
             other.GetComponent<counter>().placeitem(gameObject);
@@ -45,10 +47,6 @@ public class gasNPC : MonoBehaviour
         moveto(navigator.position);
     }
 
-    void Update()
-    {
-        
-    }
 
     IEnumerator takeitem(GameObject obj)
     {

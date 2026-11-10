@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class counter : MonoBehaviour
 {
+    [SerializeField]GameObject playerdata;
+
     [SerializeField]List<Transform> sort_At;
 
     public int item_number;
@@ -52,9 +54,11 @@ public class counter : MonoBehaviour
         }
         if(item_cashed == item_number)
         {
+            playerdata.GetComponent<playerdata>().money += item_number * 3;
             item_cashed = -5;
             item_number = 0;
             customer.GetComponent<gasNPC>().moveto(customer.GetComponent<gasNPC>().leave.position);
+            customer.GetComponent<gasNPC>().isleaving = true;
         }
     }
 }

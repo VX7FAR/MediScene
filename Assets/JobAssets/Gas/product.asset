@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj_name: product
   can_pick: 1
-  obj_type: 0
+  obj_type: 6
   gasitem: 0

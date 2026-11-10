@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj_name: pizzabox
   can_pick: 1
-  obj_type: 3
+  obj_type: 4
   Pizza_Item_Category: 0
