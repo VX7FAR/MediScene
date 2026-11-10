@@ -19,6 +19,8 @@ public class shelf_action : MonoBehaviour
             while(giveto_npc.inventory.Count < 4 && takemore)
             {
                 GameObject item_given = Instantiate(itemlist[Random.Range(0, itemlist.Count)], giveto_npc.hold_At.transform.position, Quaternion.identity);
+                item_given.GetComponent<Rigidbody>().isKinematic = true;
+                item_given.GetComponent<BoxCollider>().enabled = false;
                 giveto_npc.inventory.Add(item_given);
                 if (firstfilled)
                 {
@@ -27,9 +29,9 @@ public class shelf_action : MonoBehaviour
                 }
                 else
                 {
-                item_given.transform.SetParent(giveto_npc.hold_At);
+                    item_given.transform.SetParent(giveto_npc.hold_At);
                 }
-                takemore = Random.Range(0,2) == 0;
+                takemore = Random.Range(0,7) > 2;
                 firstfilled = true;
             }
             return true;

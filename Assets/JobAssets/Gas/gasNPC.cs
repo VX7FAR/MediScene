@@ -11,7 +11,7 @@ public class gasNPC : MonoBehaviour
     [SerializeField]Transform navigator;
     [SerializeField]Transform[] shelf;
     [SerializeField]GameObject counter;
-    [SerializeField]Transform leave;
+    public Transform leave;
 
     public List<GameObject> inventory;
     public Transform hold_At;

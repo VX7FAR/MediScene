@@ -8,13 +8,20 @@ public class counter : MonoBehaviour
 {
     [SerializeField]List<Transform> sort_At;
 
-    bool customer_waiting = false;
+    public int item_number;
+    public bool customer_waiting = false;
+
+    [SerializeField]cashRegister register;
+    public int item_cashed = -5;
+
+    GameObject customer;
 
     void OnTriggerEnter(Collider col)
     {
         if(col.tag == "NPC")
         {
             customer_waiting = true;
+            customer = col.gameObject;
         }
     }
 
@@ -22,10 +29,32 @@ public class counter : MonoBehaviour
     {
         gasNPC npc = item_giver.GetComponent<gasNPC>();
         List<GameObject> itemlist = item_giver.GetComponent<gasNPC>().inventory;
+        item_number = npc.inventory.Count;
         for(int i = 0; i < npc.inventory.Count; i++)
         {
             itemlist[i].transform.SetParent(null);
             itemlist[i].transform.position = sort_At[i].transform.position;
+            itemlist[i].GetComponent<BoxCollider>().enabled = true;
+            customer_waiting = true;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (register.itemadded)
+        {
+            if(item_cashed < 0)
+            {
+                item_cashed = 0;    
+            }
+            item_cashed++;
+            register.itemadded = false;   
+        }
+        if(item_cashed == item_number)
+        {
+            item_cashed = -5;
+            item_number = 0;
+            customer.GetComponent<gasNPC>().moveto(customer.GetComponent<gasNPC>().leave.position);
         }
     }
 }

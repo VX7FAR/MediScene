@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 
 public class GasJob : MonoBehaviour
@@ -7,7 +8,7 @@ public class GasJob : MonoBehaviour
     public struct mounter_n_obj
     {
         public GameObject obj;
-        public Itemdata data;
+        public gas_itemdata data;
     }
 
     public mounter_n_obj inhand;
@@ -19,9 +20,9 @@ public class GasJob : MonoBehaviour
 
     public bool isholding = false;
 
+    [SerializeField]counter counter_Desk;
 
     PlayerInputManager input_system;
-
     bool pick_n_interact;
     bool use_input;
     bool drop_input;
@@ -43,10 +44,10 @@ public class GasJob : MonoBehaviour
         {
             if (hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
             {
-                if (hit.collider.GetComponent<mounter>().itemdata is gas_itemdata)
+                if (hit.collider.GetComponent<mounter>().itemdata is gas_itemdata gas_itemdata)
                 {
                     looking_At.obj = hit.collider.gameObject;
-                    looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
+                    looking_At.data = gas_itemdata;
                     if (pick_n_interact && !isholding && looking_At.data.can_pick)
                     {
                         inhand = looking_At;
@@ -84,9 +85,7 @@ public class GasJob : MonoBehaviour
             }
             setcollider(inhand.obj, true);
 
-            inhand.obj = null;
-            inhand.data = null;
-            isholding = false;
+            cleardata();
         }
 
         if (use_input && isholding)
@@ -108,6 +107,16 @@ public class GasJob : MonoBehaviour
                     Debug.Log("Basic item picked");
                     break;
 
+                case gas_itemdata.gasitem_category.cashier:
+                    if (inhand.data.gasitem == gas_itemdata.gasitem_category.product && counter_Desk.customer_waiting)
+                    {
+                        Destroy(inhand.obj);
+                        cleardata();
+                        to_use.obj.GetComponent<cashRegister>().itemadded = true;
+                        Debug.Log("Item cashed");
+                    }
+                    break;
+
                 default:
                     Debug.Log("Invalid item to use");
                     break;
@@ -117,9 +126,16 @@ public class GasJob : MonoBehaviour
 
     void setcollider(GameObject obj, bool state)
     {
-        if(obj.GetComponent<BoxCollider>() != null)
+        if (obj.GetComponent<BoxCollider>() != null)
         {
             obj.GetComponent<BoxCollider>().enabled = state;
         }
+    }
+
+    public void cleardata()
+    {
+            inhand.obj = null;
+            inhand.data = null;
+            isholding = false;
     }
 }
