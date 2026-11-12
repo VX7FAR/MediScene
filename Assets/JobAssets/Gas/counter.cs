@@ -1,66 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class counter : MonoBehaviour
+public class Counter : MonoBehaviour
 {
-    [SerializeField]GameObject playerdata;
+    public GameObject customer;
+    public bool is_customer_wawiting;
 
-    [SerializeField]List<Transform> sort_At;
-
-    public int item_number;
-    public bool customer_waiting = false;
-
-    [SerializeField]cashRegister register;
-    public int item_cashed = -5;
-
-    GameObject customer;
-
-    void OnTriggerEnter(Collider col)
+    void OnTriggerEnter(Collider other)
     {
-        if(col.tag == "NPC")
+        if(other.tag == "NPC")
         {
-            customer_waiting = true;
-            customer = col.gameObject;
+            // gasNPC npc = other.GetComponent<gasNPC>();
+            customer = other.gameObject;
+            is_customer_wawiting = true;
+            Debug.Log("Customer here");
         }
     }
 
-    public void placeitem(GameObject item_giver)
+    void Update()
     {
-        gasNPC npc = item_giver.GetComponent<gasNPC>();
-        List<GameObject> itemlist = item_giver.GetComponent<gasNPC>().inventory;
-        item_number = npc.inventory.Count;
-        for(int i = 0; i < npc.inventory.Count; i++)
+        if (Input.GetKeyDown(KeyCode.Y))
         {
-            itemlist[i].transform.SetParent(null);
-            itemlist[i].transform.position = sort_At[i].transform.position;
-            itemlist[i].GetComponent<BoxCollider>().enabled = true;
-            customer_waiting = true;
+            Destroy(customer);
+            customer = null;
+            is_customer_wawiting = false;
         }
-        npc.inventory.Clear();
-    }
-
-    void FixedUpdate()
-    {
-        if (register.itemadded)
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            if(item_cashed < 0)
-            {
-                item_cashed = 0;    
-            }
-            item_cashed++;
-            register.itemadded = false;   
-        }
-        if(item_cashed == item_number)
-        {
-            playerdata.GetComponent<playerdata>().money += item_number * 3;
-            item_cashed = -5;
-            item_number = 0;
-            int leaveto = Random.Range(0,2);
-            customer.GetComponent<gasNPC>().moveto(customer.GetComponent<gasNPC>().leave[leaveto].position);
-            customer.GetComponent<gasNPC>().isleaving = true;
+            customer.GetComponent<gasNPC>().action = gasNPC.Action.to_leaving;
+            customer = null;
+            is_customer_wawiting = false;
         }
     }
 }
