@@ -11,10 +11,9 @@ TagManager:
   - car
   - shopshelf
   - NPC
-  - junction
-  - shelfnavigator
   - counter
-  - dns_npc
+  - cashmachine
+  - dnsnpc
   layers:
   - Default
   - TransparentFX

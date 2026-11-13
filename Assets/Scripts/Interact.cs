@@ -114,7 +114,7 @@ public class Interact : MonoBehaviour
                 else if(to_use.data.obj_name == "Gasjob")   //Starts gas station job
                 {
                     Debug.Log("Gas job start");
-                    // gameObject.GetComponent<GasJob>().enabled = true;
+                    gameObject.GetComponent<GasStationJob>().enabled = true;
                     gameObject.GetComponent<Interact>().enabled = false;
                 }
                 break;

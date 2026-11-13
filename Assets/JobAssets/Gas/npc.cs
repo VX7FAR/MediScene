@@ -6,9 +6,6 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /*
-    TEST ONGOING
-    TESTED - OBJECT GOES TO SHELF, PICKS UP ITEMS, COMES TO COUNTER
-    FIX AND REMAINING - WAIT_AT NOT DEFINED, SEEMS THAT IT TRIES TO WAIT BECAUSE IT IDENTIFIES ITSELF AS THE CUSTOMER
 */
 
 public class gasNPC : MonoBehaviour
@@ -20,17 +17,20 @@ public class gasNPC : MonoBehaviour
     public Action action;
     NavMeshAgent agent;
     public bool toshelf;
+    public bool kys;
 
     [Header("Inventory and Shelf")]
     public GameObject[] shelf_itemlist;
     public List<GameObject> inventory;
+    public int needs;
     public Transform hold_At;
     public bool itemtaken;
 
     [Header("Waypoints")]
     public Transform[] shelf_location;
-    public Transform[] leave_location;      public bool leave;
+    public Transform[] leave_location; public bool leave;
     public Transform wait_At;
+    bool isleaving;
 
     [Header("Counter n  Customer")]
     public Transform[] place_At;
@@ -43,19 +43,42 @@ public class gasNPC : MonoBehaviour
     {
         if (other.tag == "counter" && !customer_Waiting)
         {
-            for (int i = inventory.Count - 1; i > -1; i--)
+            if (inventory.Count == 1)
             {
-                inventory[i].transform.position = place_At[i].position;
-                change_item_physics(inventory[i], false, false);
-                inventory[i].transform.SetParent(null);
-                inventory.RemoveAt(i);
+                inventory[0].transform.position = place_At[0].position;
+                change_item_physics(inventory[0], false, false);
+                inventory[0].transform.SetParent(null);
+                inventory[0].GetComponent<Collider>().enabled = true;
+                inventory.RemoveAt(0);
+            }
+            else
+            {
+                for (int i = inventory.Count - 1; i > -1; i--)
+                {
+                    inventory[i].transform.position = place_At[i].position;
+                    change_item_physics(inventory[i], false, false);
+                    inventory[i].transform.SetParent(null);
+                    inventory[i].GetComponent<Collider>().enabled = true;
+                    inventory.RemoveAt(i);
+                }
             }
         }
         if (other.tag == "shopshelf")
         {
             action = Action.taking_item;
         }
+        if(other.tag == "dnsnpc")
+        {
+            kys = true;
+        }
 
+    }
+
+    void OnEnable()
+    {
+        agent = gameObject.GetComponent<NavMeshAgent>();
+        action = Action.to_shelf;
+        pick_random_and_move(shelf_location);
     }
 
     void Start()
@@ -64,7 +87,6 @@ public class gasNPC : MonoBehaviour
         action = Action.to_shelf;
         counter_script = counter.GetComponent<Counter>();
         pick_random_and_move(shelf_location);
-        action = Action.to_shelf;
     }
 
     void Update()
@@ -76,7 +98,7 @@ public class gasNPC : MonoBehaviour
         {
             toshelf = true;
         }
-        
+
         if (action == Action.taking_item && !itemtaken)
         {
             // bool takeitem = UnityEngine.Random.Range(0, 10) < 8;
@@ -93,7 +115,7 @@ public class gasNPC : MonoBehaviour
             }
             else
             {
-                int item_to_take = UnityEngine.Random.Range(0, 4);
+                int item_to_take = UnityEngine.Random.Range(0, 3);
                 inventory.Clear();
                 for (int i = 0; i <= item_to_take; i++)
                 {
@@ -114,6 +136,7 @@ public class gasNPC : MonoBehaviour
                     action = Action.to_counter;
                     moveto(counter.transform.position);
                 }
+                needs = inventory.Count;
                 itemtaken = true;
             }
         }
@@ -132,9 +155,10 @@ public class gasNPC : MonoBehaviour
             moveto(counter.transform.position);
         }
 
-        if(action == Action.to_leaving)
+        if (action == Action.to_leaving && !isleaving)
         {
             pick_random_and_move(leave_location);
+            isleaving = true;
         }
     }
 
@@ -163,5 +187,10 @@ public class gasNPC : MonoBehaviour
         {
             obj.GetComponent<CapsuleCollider>().enabled = state;
         }
+    }
+
+    void shelf_interaction()
+    {
+        
     }
 }
