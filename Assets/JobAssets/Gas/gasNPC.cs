@@ -101,44 +101,7 @@ public class gasNPC : MonoBehaviour
 
         if (action == Action.taking_item && !itemtaken)
         {
-            // bool takeitem = UnityEngine.Random.Range(0, 10) < 8;
-            bool takeitem = true;
-            action = Action.taking_item;
-
-            if (!takeitem)
-            {
-                pick_random_and_move(leave_location);
-                action = Action.to_leaving;
-                // doingaction = true;
-                itemtaken = true;
-                Debug.Log("Do not take item, leave");
-            }
-            else
-            {
-                int item_to_take = UnityEngine.Random.Range(0, 3);
-                inventory.Clear();
-                for (int i = 0; i <= item_to_take; i++)
-                {
-                    GameObject item_to_spawn = shelf_itemlist[UnityEngine.Random.Range(0, shelf_itemlist.Length)];
-                    GameObject new_item = Instantiate(item_to_spawn, hold_At.transform.position, Quaternion.identity);
-                    change_item_physics(new_item, false);
-                    if (inventory.Count == 0)
-                    {
-                        new_item.transform.position = hold_At.transform.position;
-                        new_item.transform.SetParent(hold_At.transform);
-                    }
-                    else
-                    {
-                        new_item.transform.position = gameObject.transform.position;
-                        new_item.transform.SetParent(gameObject.transform);
-                    }
-                    inventory.Add(new_item);
-                    action = Action.to_counter;
-                    moveto(counter.transform.position);
-                }
-                needs = inventory.Count;
-                itemtaken = true;
-            }
+            StartCoroutine(shelf_interaction());
         }
 
         if (action == Action.to_counter && itemtaken)
@@ -189,8 +152,47 @@ public class gasNPC : MonoBehaviour
         }
     }
 
-    void shelf_interaction()
+    IEnumerator shelf_interaction()
     {
-        
+        itemtaken = true;
+            yield return new WaitForSeconds(2);
+            // bool takeitem = UnityEngine.Random.Range(0, 10) < 8;
+            bool takeitem = true;
+            action = Action.taking_item;
+
+            if (!takeitem)
+            {
+                pick_random_and_move(leave_location);
+                action = Action.to_leaving;
+                // doingaction = true;
+                itemtaken = true;
+                Debug.Log("Do not take item, leave");
+            }
+            else
+            {
+                int item_to_take = UnityEngine.Random.Range(0, 3);
+                inventory.Clear();
+                for (int i = 0; i <= item_to_take; i++)
+                {
+                    GameObject item_to_spawn = shelf_itemlist[UnityEngine.Random.Range(0, shelf_itemlist.Length)];
+                    GameObject new_item = Instantiate(item_to_spawn, hold_At.transform.position, Quaternion.identity);
+                    change_item_physics(new_item, false);
+                    if (inventory.Count == 0)
+                    {
+                        new_item.transform.position = hold_At.transform.position;
+                        new_item.transform.SetParent(hold_At.transform);
+                    }
+                    else
+                    {
+                        new_item.transform.position = gameObject.transform.position;
+                        new_item.transform.SetParent(gameObject.transform);
+                    }
+                    inventory.Add(new_item);
+                    action = Action.to_counter;
+                    moveto(counter.transform.position);
+                }
+                needs = inventory.Count;
+                itemtaken = true;
+            }
     }
 }

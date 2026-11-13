@@ -2,6 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+REQUIREMENTS:
+    Gas_station_manager - gas_station_manager script, < npc_prefab, spawn_At>
+    npc - attach gasnpc, tag = NPC, rigidbody, capsule collider, navmeshagent, < shelf_itemlist[], hold_At, shelf_location, leave_location, wait_At, place_At, counter >
+    shelftrigger - box collider w trigger, tag = shopshelf
+    npc spawn point - empty gameobject
+    leave point - one or more, bx collider w trigger, tag = dnsnpc
+    wait point - empty gameobject
+    cash machine - mounter = cashier, tag = cashmachine
+    spawn_At - empty gameobject
+    counter - counter
+*/
+
 public class gas_station_manager : MonoBehaviour
 {
     GameObject[] npc_spawned = new GameObject[2];

@@ -286,10 +286,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: money thingy
       objectReference: {fileID: 0}
-    - target: {fileID: 1417216286665407611, guid: 6bf655dcce9f37546b89d740cf5e9554, type: 3}
-      propertyPath: m_TagString
-      value: cashmachine
-      objectReference: {fileID: 0}
     - target: {fileID: 1792756013911680705, guid: 6bf655dcce9f37546b89d740cf5e9554, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.67
@@ -1801,7 +1797,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106078355}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cfa26c45a1b7cb41ad3b18ee6a22b19, type: 3}
   m_Name: 
@@ -1915,6 +1911,10 @@ PrefabInstance:
     - target: {fileID: 324741047163192247, guid: 0e6297f02c40c264fa1f7649945ac17d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1155609933773282638, guid: 0e6297f02c40c264fa1f7649945ac17d, type: 3}
+      propertyPath: m_Radius
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 3625346793618109759, guid: 0e6297f02c40c264fa1f7649945ac17d, type: 3}
       propertyPath: leave
