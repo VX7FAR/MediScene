@@ -150,14 +150,14 @@ GameObject:
   - component: {fileID: 8564926981836429953}
   - component: {fileID: 3117913967945287634}
   - component: {fileID: 1155609933773282638}
-  - component: {fileID: 3625346793618109759}
+  - component: {fileID: 6205862893072699114}
   m_Layer: 0
   m_Name: npc
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &324741047163192247
 Transform:
   m_ObjectHideFlags: 0
@@ -284,7 +284,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8757773613570477301}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.72
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -297,7 +297,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3625346793618109759
+--- !u!114 &6205862893072699114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,16 +306,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 8757773613570477301}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6354f0de5a6089046a8dc9f95901f52a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c23f4e12d65d7e498670739d48a2dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navigator: {fileID: 0}
-  shelf:
+  action: 0
+  toshelf: 0
+  kys: 0
+  shelf_itemlist:
+  - {fileID: 8969759820768753410, guid: 6f1f96a2c6b7cb244b017382517f2964, type: 3}
+  - {fileID: 4736034786485811481, guid: 40dff25e57d671645b00a17c7daac1d4, type: 3}
+  - {fileID: 8076167351313949438, guid: 041e8fa5e028678418230b3c4e8414f6, type: 3}
+  - {fileID: 2433598061121682453, guid: 46d628ff20561ab418c3aa24a76d2cb4, type: 3}
+  inventory: []
+  needs: 0
+  hold_At: {fileID: 893135553493409331}
+  itemtaken: 0
+  shelf_location:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  leave_location:
+  - {fileID: 0}
+  - {fileID: 0}
+  leave: 0
+  wait_At: {fileID: 0}
+  place_At:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   counter: {fileID: 0}
-  leave: {fileID: 0}
-  inventory: []
-  hold_At: {fileID: 893135553493409331}
+  customer_Waiting: 0

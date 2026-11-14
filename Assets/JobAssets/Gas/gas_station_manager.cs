@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,26 +6,26 @@ using UnityEngine;
 /*
 REQUIREMENTS:
     Gas_station_manager - gas_station_manager script, < npc_prefab, spawn_At>
-    npc - attach gasnpc, tag = NPC, rigidbody, capsule collider, navmeshagent, < shelf_itemlist[], hold_At, shelf_location, leave_location, wait_At, place_At, counter >
-    shelftrigger - box collider w trigger, tag = shopshelf
-    npc spawn point - empty gameobject
-    leave point - one or more, bx collider w trigger, tag = dnsnpc
-    wait point - empty gameobject
-    cash machine - mounter = cashier, tag = cashmachine
-    spawn_At - empty gameobject
-    counter - counter
+    npc - attach gasnpc, tag = NPC, rigidbody, capsule collider, navmeshagent, < shelf_itemlist[], hold_At, shelf_location, leave_location, wait_At, place_At, counter >    //
+    shelftrigger - box collider w trigger, tag = shopshelf      //
+    npc spawn point - empty gameobject      //
+    leave point - one or more, bx collider w trigger, tag = dnsnpc      //
+    wait point - empty gameobject           //
+    cash machine - mounter = cashier, tag = cashmachine     //
+    spawn_At - empty gameobject     //
+    counter - counter       //
 */
 
 public class gas_station_manager : MonoBehaviour
 {
     GameObject[] npc_spawned = new GameObject[2];
     public GameObject npc_prefab;
-    public Transform spawn_At;
+    public Transform[] spawn_At;
     bool allspawned;
 
     void Start()
     {
-        npc_spawned[0] = Instantiate(npc_prefab, spawn_At.position, Quaternion.identity);
+        npc_spawned[0] = Instantiate(npc_prefab, decide_spawn(), Quaternion.identity);
         npc_spawned[0].SetActive(true);
         StartCoroutine(init_npc());
     }
@@ -39,13 +40,13 @@ public class gas_station_manager : MonoBehaviour
                 if (npc.GetComponent<gasNPC>().kys)
                 {
                     Destroy(npc_spawned[i]);
-                    npc_spawned[i] = Instantiate(npc_prefab, spawn_At.position, Quaternion.identity);
+                    npc_spawned[i] = Instantiate(npc_prefab, decide_spawn(), Quaternion.identity);
                     npc_spawned[i].SetActive(true);
 
                 }
                 else if (npc == null)
                 {
-                    npc_spawned[i] = Instantiate(npc_prefab, spawn_At.position, Quaternion.identity);
+                    npc_spawned[i] = Instantiate(npc_prefab, decide_spawn(), Quaternion.identity);
                     npc_spawned[i].SetActive(true);
 
                 }
@@ -53,10 +54,16 @@ public class gas_station_manager : MonoBehaviour
         }
     }
 
+    Vector3 decide_spawn()
+    {
+        int at = UnityEngine.Random.Range(0, spawn_At.Length);
+        return spawn_At[at].position;
+    }
+
     IEnumerator init_npc()
     {
         yield return new WaitForSeconds(2);
-        npc_spawned[1] = Instantiate(npc_prefab, spawn_At.position, Quaternion.identity);
+        npc_spawned[1] = Instantiate(npc_prefab, decide_spawn(), Quaternion.identity);
         npc_spawned[1].SetActive(true);
         allspawned = true;
     }

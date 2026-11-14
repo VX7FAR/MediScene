@@ -67,7 +67,7 @@ public class gasNPC : MonoBehaviour
         {
             action = Action.taking_item;
         }
-        if(other.tag == "dnsnpc")
+        if(other.tag == "dns_npc")
         {
             kys = true;
         }
