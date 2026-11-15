@@ -11,7 +11,7 @@ public class GasStationJob : MonoBehaviour
     }
 
     public mounter_n_obj inhand;
-    public  mounter_n_obj looking_At;
+    public mounter_n_obj looking_At;
     public GameObject cam;
     RaycastHit hit;
     float range = 100.0f;
@@ -25,6 +25,10 @@ public class GasStationJob : MonoBehaviour
     bool pick_n_interact;
     bool drop_input;
     bool use_input;
+    bool use_held;
+
+
+    GameObject holding;
 
     void OnTriggerEnter(Collider colliding_to)
     {
@@ -45,18 +49,20 @@ public class GasStationJob : MonoBehaviour
 
     void Update()
     {
+        holding = inhand.obj;
         pick_n_interact = player_input.pick_interact;
         use_input = player_input.use;
+        use_held = player_input.use_isPressed;
         drop_input = player_input.drop;
 
         //BASIC INTERACTION
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
 
-        if(Physics.Raycast(ray, out hit, 100f))
+        if (Physics.Raycast(ray, out hit, 100f))
         {
-            if(hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
+            if (hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
             {
-                if(hit.collider.GetComponent<mounter>().itemdata.obj_type == Itemdata.categories.GasStation)
+                if (hit.collider.GetComponent<mounter>().itemdata.obj_type == Itemdata.categories.GasStation)
                 {
                     looking_At.obj = hit.collider.gameObject;
                     looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
@@ -65,16 +71,16 @@ public class GasStationJob : MonoBehaviour
                         //Pick in hand
                         inhand = looking_At;
                         isholding = true;
-                        if(inhand.obj.GetComponent<Rigidbody>() != null)
+                        if (inhand.obj.GetComponent<Rigidbody>() != null)
                         {
                             inhand.obj.GetComponent<Rigidbody>().isKinematic = true;
                         }
                         foreach (Collider col in inhand.obj.GetComponents<Collider>())
                         {
                             col.enabled = false;
-                        }   
+                        }
                     }
-                    if(pick_n_interact && !looking_At.data.can_pick)
+                    if (pick_n_interact && !looking_At.data.can_pick)
                     {
                         //Dont pick but interact
                         use(looking_At);
@@ -94,10 +100,10 @@ public class GasStationJob : MonoBehaviour
             inhand.obj.transform.rotation = holdat.transform.rotation;
         }
 
-        if(drop_input && isholding && inhand.obj != null)
-        {   
+        if (drop_input && isholding && inhand.obj != null)
+        {
             //Drop
-            if(inhand.obj.GetComponent<Rigidbody>() != null)
+            if (inhand.obj.GetComponent<Rigidbody>() != null)
             {
                 inhand.obj.GetComponent<Rigidbody>().isKinematic = false;
             }
@@ -110,7 +116,7 @@ public class GasStationJob : MonoBehaviour
             isholding = false;
         }
 
-        if(use_input && isholding)
+        if (use_input && isholding)
         {
             //When using the object in hand
             use(inhand);
@@ -119,7 +125,7 @@ public class GasStationJob : MonoBehaviour
 
     void use(mounter_n_obj touse)
     {
-        if(touse.data is gas_itemdata gas_item_data)
+        if (touse.data is gas_itemdata gas_item_data)
         {
             switch (gas_item_data.gasitem)
             {
@@ -144,6 +150,19 @@ public class GasStationJob : MonoBehaviour
                     }
                     break;
 
+                case gas_itemdata.gasitem_category.nozzle:
+                    physics_disable(touse.obj);
+                    break;
+
+                case gas_itemdata.gasitem_category.fuel_tank:
+                    if (inhand.data is gas_itemdata gasdata)
+                    {
+                        Debug.Log(inhand.obj.name);
+                        touse.obj.GetComponent<gasvehicle_ai>().is_fueling = true;
+                        Debug.Log("Fueling started");
+                    }
+                    break;
+
                 default:
                     Debug.Log("Default item");
                     break;
@@ -153,14 +172,14 @@ public class GasStationJob : MonoBehaviour
         {
             Debug.Log("Not pizza item");
         }
-    } 
+    }
 
     public void physics_disable(GameObject topick, bool state = true)
     {
-        if(topick.GetComponent<Rigidbody>() != null)
+        if (topick.GetComponent<Rigidbody>() != null)
         {
             topick.GetComponent<Rigidbody>().isKinematic = state;
         }
         topick.GetComponent<Collider>().enabled = !state;
-    } 
+    }
 }

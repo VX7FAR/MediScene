@@ -7,7 +7,7 @@ public class gas_itemdata : Itemdata
 {
     public enum gasitem_category
     {
-        product, cashier, bell
+        product, cashier, bell, nozzle, fuel_tank
     }
 
     public gasitem_category gasitem;
