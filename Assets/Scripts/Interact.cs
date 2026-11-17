@@ -116,6 +116,7 @@ public class Interact : MonoBehaviour
                     Debug.Log("Gas job start");
                     gameObject.GetComponent<GasStationJob>().enabled = true;
                     gameObject.GetComponent<Interact>().enabled = false;
+                    to_use.obj.GetComponent<gas_station_manager>().enabled = true;
                 }
                 break;
 
