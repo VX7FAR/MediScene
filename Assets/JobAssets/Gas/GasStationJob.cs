@@ -27,6 +27,8 @@ public class GasStationJob : MonoBehaviour
     bool use_input;
     bool use_held;
 
+    GameObject tofuel;
+    bool fuelpressed;
 
     GameObject holding;
 
@@ -121,6 +123,20 @@ public class GasStationJob : MonoBehaviour
             //When using the object in hand
             use(inhand);
         }
+
+        if(tofuel != null && use_held)
+        {
+            tofuel.GetComponent<gasvehicle_ai>().is_fueling = true;
+        }
+        else if(tofuel != null)
+        {
+            gasvehicle_ai gas_vehicle_script = tofuel.GetComponent<gasvehicle_ai>();
+            gas_vehicle_script.is_fueling = false;
+            if(gas_vehicle_script.fuel >= gas_vehicle_script.fuel_needed)
+            {
+                tofuel = null;
+            }
+        }
     }
 
     void use(mounter_n_obj touse)
@@ -157,9 +173,9 @@ public class GasStationJob : MonoBehaviour
                 case gas_itemdata.gasitem_category.fuel_tank:
                     if (inhand.data is gas_itemdata gasdata)
                     {
-                        Debug.Log(inhand.obj.name);
-                        touse.obj.GetComponent<gasvehicle_ai>().is_fueling = true;
-                        Debug.Log("Fueling started");
+                        // Debug.Log(inhand.obj.name);
+                        tofuel = touse.obj;
+                        // Debug.Log("Fueling started");
                     }
                     break;
 
@@ -170,7 +186,7 @@ public class GasStationJob : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not pizza item");
+            Debug.Log("Not gas item");
         }
     }
 

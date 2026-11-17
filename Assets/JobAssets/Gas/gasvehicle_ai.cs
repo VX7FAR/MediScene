@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class gasvehicle_ai : MonoBehaviour
 {
-    [SerializeField] Transform start_At;
+    public Transform[] start_At = new Transform[2];
 
     [SerializeField] float speed;
     float speedhold;
@@ -28,6 +28,7 @@ public class gasvehicle_ai : MonoBehaviour
     public float fuel_needed;
     public float fueling_speed;
 
+    public bool kys;
 
     void OnTriggerEnter(Collider other)
     {
@@ -38,6 +39,10 @@ public class gasvehicle_ai : MonoBehaviour
             if (other.tag == "gas_fuelwait")
             {
                 waitforfuel = true;
+            }
+            if(other.tag == "dns_car" && fuel >= fuel_needed)
+            {
+                kys = true;   
             }
         }
     }
@@ -52,7 +57,6 @@ public class gasvehicle_ai : MonoBehaviour
 
     void Start()
     {
-        gameObject.transform.position = start_At.transform.position;
         speedhold = speed;
     }
 
@@ -72,7 +76,7 @@ public class gasvehicle_ai : MonoBehaviour
                 {
                     next = change_to[UnityEngine.Random.Range(0, change_to.Count)];
                     move_to = next.transform;
-                    Debug.Log("Move to: " + next.name);
+                    // Debug.Log("Move to: " + next.name);
                     takedecision = false;
                     move = true;
                 }
@@ -95,7 +99,7 @@ public class gasvehicle_ai : MonoBehaviour
             }
 
 
-            if (move)
+            if (move && move_to != null)
             {
                 Vector3 direction = move_to.transform.position - transform.position;
                 Quaternion target_rotation = Quaternion.LookRotation(direction);
@@ -106,11 +110,9 @@ public class gasvehicle_ai : MonoBehaviour
 
         }
 
-        if (is_fueling)
+        if (is_fueling && fuel < fuel_needed && waitforfuel) 
         {
-            fuel += fuel_needed > fuel ? fueling_speed * Time.deltaTime : fuel;
-            is_fueling = fuel <= fuel_needed;
-            waitforfuel = fuel <= fuel_needed;
+            fuel += fueling_speed * Time.deltaTime;
         }
     }
 

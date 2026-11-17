@@ -13,10 +13,10 @@ TagManager:
   - NPC
   - counter
   - cashmachine
-  - dnsnpc
   - dns_npc
   - shelfnavigator
   - gas_fuelwait
+  - dns_car
   layers:
   - Default
   - TransparentFX

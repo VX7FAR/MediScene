@@ -24,18 +24,6 @@ public class Counter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            Destroy(customer);
-            customer = null;
-            is_customer_wawiting = false;
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            customer.GetComponent<gasNPC>().action = gasNPC.Action.to_leaving;
-            customer = null;
-            is_customer_wawiting = false;
-        }
         if(customer_need == counted && customer != null)
         {
             customer.GetComponent<gasNPC>().action = gasNPC.Action.to_leaving;
