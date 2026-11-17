@@ -124,8 +124,9 @@ public class GasStationJob : MonoBehaviour
             use(inhand);
         }
 
-        if(tofuel != null && use_held)
+        if(tofuel != null && use_held && Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position) < 2.5f)
         {
+            Debug.Log(Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position));
             tofuel.GetComponent<gasvehicle_ai>().is_fueling = true;
         }
         else if(tofuel != null)
@@ -172,7 +173,7 @@ public class GasStationJob : MonoBehaviour
 
                 case gas_itemdata.gasitem_category.fuel_tank:
                     if (inhand.data is gas_itemdata gasdata)
-                    {
+                    {   
                         // Debug.Log(inhand.obj.name);
                         tofuel = touse.obj;
                         // Debug.Log("Fueling started");

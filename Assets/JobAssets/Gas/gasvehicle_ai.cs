@@ -55,6 +55,12 @@ public class gasvehicle_ai : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        fuel_needed = Random.Range(3, 8);
+        fuel = Random.Range(1, fuel_needed);
+    }
+
     void Start()
     {
         speedhold = speed;
