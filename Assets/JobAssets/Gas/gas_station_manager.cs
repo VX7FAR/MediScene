@@ -32,9 +32,7 @@ public class gas_station_manager : MonoBehaviour
 
     void Start()
     {
-        // npc_spawned[0] = Instantiate(npc_prefab, decide_vector(spawn_At), Quaternion.identity);
-        // npc_spawned[0].SetActive(true);
-        // StartCoroutine(init_npc());
+        StartCoroutine(init_npc());
 
         // car_spawned[0] = Instantiate(car_prefab[0], car_spawnat[0].transform.position, Quaternion.identity);
         // car_spawned[1] = Instantiate(car_prefab[1], car_spawnat[1].transform.position, Quaternion.identity);
@@ -43,29 +41,27 @@ public class gas_station_manager : MonoBehaviour
 
     void Update()
     {
-        // for (int i = 0; i < 2; i++)
-        // {
-        //     if (allnpcspawned)
-        //     {
-        //         GameObject npc = npc_spawned[i];
-        //         if (npc.GetComponent<gasNPC>().kys)
-        //         {
-        //             Destroy(npc_spawned[i]);
-        //             npc_spawned[i] = Instantiate(npc_prefab, decide_vector(spawn_At), Quaternion.identity);
-        //             npc_spawned[i].SetActive(true);
+        for (int i = 0; i < 2; i++)
+        {
+            if (allnpcspawned)
+            {
+                GameObject npc = npc_spawned[i];
+                if (npc.GetComponent<gasNPC>().kys)
+                {
+                    Destroy(npc_spawned[i]);
+                    npc_spawned[i] = Instantiate(npc_prefab, decide_vector(spawn_At), Quaternion.identity);
+                    npc_spawned[i].SetActive(true);
 
-        //         }
-        //         else if (npc == null)
-        //         {
-        //             npc_spawned[i] = Instantiate(npc_prefab, decide_vector(spawn_At), Quaternion.identity);
-        //             npc_spawned[i].SetActive(true);
+                }
+                else if (npc == null)
+                {
+                    npc_spawned[i] = Instantiate(npc_prefab, decide_vector(spawn_At), Quaternion.identity);
+                    npc_spawned[i].SetActive(true);
 
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
 
-
-// Car shouldd not fill unless stopped
         if (allcarspawned)
         {
             for(int i = 0; i < 2; i++)
@@ -87,13 +83,15 @@ public class gas_station_manager : MonoBehaviour
         return spawn_pos[at].position;
     }
 
-    // IEnumerator init_npc()
-    // {
-    //     yield return new WaitForSeconds(2);
-    //     npc_spawned[1] = Instantiate(npc_prefab, decide_vector(spawn_At), Quaternion.identity);
-    //     npc_spawned[1].SetActive(true);
-    //     allnpcspawned = true;
-    // }
+    IEnumerator init_npc()
+    {
+        npc_spawned[0] = Instantiate(npc_prefab, decide_vector(spawn_At), Quaternion.identity);
+        npc_spawned[0].SetActive(true);
+        yield return new WaitForSeconds(2);
+        npc_spawned[1] = Instantiate(npc_prefab, decide_vector(spawn_At), Quaternion.identity);
+        npc_spawned[1].SetActive(true);
+        allnpcspawned = true;
+    }
 
     IEnumerator init_Car()
     {

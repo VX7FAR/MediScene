@@ -124,7 +124,7 @@ public class GasStationJob : MonoBehaviour
             use(inhand);
         }
 
-        if(tofuel != null && use_held && Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position) < 2.5f)
+        if(tofuel != null && use_held && Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position) < 4.0f)
         {
             Debug.Log(Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position));
             tofuel.GetComponent<gasvehicle_ai>().is_fueling = true;
