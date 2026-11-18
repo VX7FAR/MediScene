@@ -881,18 +881,6 @@ PrefabInstance:
       propertyPath: deliver_at.Array.data[0]
       value: 
       objectReference: {fileID: 705507993}
-    - target: {fileID: 3898610558874623898, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4243990106647806545, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
-      propertyPath: counter
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4243990106647806545, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4622693986284072280, guid: 34ed8979eeef6bf4bba08745f3305331, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.26

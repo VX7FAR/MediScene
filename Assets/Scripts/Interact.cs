@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Interact : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class Interact : MonoBehaviour
     bool use_input;
     bool drop_input;
 
+    bool is_city_scene;
+
     void Start()
     {
         input_system = gameObject.GetComponent<PlayerInputManager>();
@@ -37,6 +40,8 @@ public class Interact : MonoBehaviour
 
     void Update()
     {
+        is_city_scene = SceneManager.GetActiveScene().name == "CITY" ? true : false;
+
         pick_n_interact = input_system.pick_interact;
         use_input = input_system.use;
         drop_input = input_system.drop;
@@ -94,6 +99,11 @@ public class Interact : MonoBehaviour
         if (use_input && isholding)
         {
             UseItem(inhand);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SceneManager.LoadScene(is_city_scene ? "TEST" : "CITY");
         }
     }
 
