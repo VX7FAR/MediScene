@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class GasStationJob : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class GasStationJob : MonoBehaviour
     }
 
     public mounter_n_obj inhand;
+    Vector3 picked_from_position;
+    Vector3 picked_from_rotation;
     public mounter_n_obj looking_At;
     public GameObject cam;
     RaycastHit hit;
@@ -71,6 +74,8 @@ public class GasStationJob : MonoBehaviour
                     if (pick_n_interact && !isholding && looking_At.data.can_pick)
                     {
                         //Pick in hand
+                        picked_from_position = looking_At.obj.transform.position;
+                        picked_from_rotation = looking_At.obj.transform.localEulerAngles;
                         inhand = looking_At;
                         isholding = true;
                         if (inhand.obj.GetComponent<Rigidbody>() != null)
@@ -105,17 +110,7 @@ public class GasStationJob : MonoBehaviour
         if (drop_input && isholding && inhand.obj != null)
         {
             //Drop
-            if (inhand.obj.GetComponent<Rigidbody>() != null)
-            {
-                inhand.obj.GetComponent<Rigidbody>().isKinematic = false;
-            }
-            foreach (Collider col in inhand.obj.GetComponents<Collider>())
-            {
-                col.enabled = true;
-            }
-            inhand.obj = null;
-            inhand.data = null;
-            isholding = false;
+            dropitem();
         }
 
         if (use_input && isholding)
@@ -124,16 +119,16 @@ public class GasStationJob : MonoBehaviour
             use(inhand);
         }
 
-        if(tofuel != null && use_held && Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position) < 4.0f)
+        if (tofuel != null && use_held && Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position) < 4.0f)
         {
             Debug.Log(Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position));
             tofuel.GetComponent<gasvehicle_ai>().is_fueling = true;
         }
-        else if(tofuel != null)
+        else if (tofuel != null)
         {
             gasvehicle_ai gas_vehicle_script = tofuel.GetComponent<gasvehicle_ai>();
             gas_vehicle_script.is_fueling = false;
-            if(gas_vehicle_script.fuel >= gas_vehicle_script.fuel_needed)
+            if (gas_vehicle_script.fuel >= gas_vehicle_script.fuel_needed)
             {
                 tofuel = null;
             }
@@ -173,7 +168,7 @@ public class GasStationJob : MonoBehaviour
 
                 case gas_itemdata.gasitem_category.fuel_tank:
                     if (inhand.data is gas_itemdata gasdata)
-                    {   
+                    {
                         // Debug.Log(inhand.obj.name);
                         tofuel = touse.obj;
                         // Debug.Log("Fueling started");
@@ -198,5 +193,40 @@ public class GasStationJob : MonoBehaviour
             topick.GetComponent<Rigidbody>().isKinematic = state;
         }
         topick.GetComponent<Collider>().enabled = !state;
+    }
+
+    void dropitem()
+    {
+        if (inhand.data != null && inhand.data is gas_itemdata data)
+        {
+            switch (data.gasitem)
+            {
+                case gas_itemdata.gasitem_category.nozzle:
+                    inhand.obj.transform.position = picked_from_position;
+                    inhand.obj.transform.localEulerAngles = picked_from_rotation;
+                    foreach (Collider col in inhand.obj.GetComponents<Collider>())
+                    {
+                        col.enabled = true;
+                    }
+                    inhand.obj = null;
+                    inhand.data = null;
+                    isholding = false;
+                    break;
+
+                default:
+                    if (inhand.obj.GetComponent<Rigidbody>() != null)
+                    {
+                        inhand.obj.GetComponent<Rigidbody>().isKinematic = false;
+                    }
+                    foreach (Collider col in inhand.obj.GetComponents<Collider>())
+                    {
+                        col.enabled = true;
+                    }
+                    inhand.obj = null;
+                    inhand.data = null;
+                    isholding = false;
+                    break;
+            }
+        }
     }
 }
