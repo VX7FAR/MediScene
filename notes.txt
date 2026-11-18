@@ -4,7 +4,7 @@ locked movement		/
 random input stops working	/
 teleport to random position
 oversteering		/
-colour blindness
+colour blindness    
 toxic outside air	/
 
 tasks:
@@ -28,13 +28,14 @@ baseplate
 tall building for sea side (yellow)
 hospital building	(red)
 park assets	(green)
-mart assets	(lime)
-coffee	(brown)
-house assets	(banana)
+mart assets	(lime)          
+coffee	(brown)             /
+house assets	(banana)    /
 pawnshop	(blue)
 meatshop (ex)	(dark red)
 botanical garden
-townhall	(orange)
+townhall	(orange)        /
+gas shop                    /
 
 optimization:
 occlusion culling
@@ -51,3 +52,5 @@ JOB MAKING PROCEDURE:
 - also disable the interact.cs script and enable the job related script
 - add job management elements in jobmanager.cs script
 - write the new code for the job in newwly created job script
+
+	
