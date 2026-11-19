@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj_name: Nozzle
   can_pick: 1
-  obj_type: 6
+  obj_type: 5
   gasitem: 3

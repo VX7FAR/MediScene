@@ -7,7 +7,7 @@ public class Itemdata : ScriptableObject
 {
     public enum categories
     {
-        regular, capsule, rollerskates, jobtrigger, PizzaDelivery, Mart, GasStation, Cook, Warehouse
+        regular, capsule, rollerskates, jobtrigger, PizzaDelivery, GasStation
     }
     public string obj_name;
     public bool can_pick;

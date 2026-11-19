@@ -13,6 +13,7 @@ gas station (fill fuel, sell items)
 warehouse (move boxes, take count of items, print package info)
 pizzeria (deliver pizza)	/
 restaurant kitchen (cook)
+bomb defuser
 
 misc:
 pawnshop
@@ -53,4 +54,4 @@ JOB MAKING PROCEDURE:
 - add job management elements in jobmanager.cs script
 - write the new code for the job in newwly created job script
 
-	
+    

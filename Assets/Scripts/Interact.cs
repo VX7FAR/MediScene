@@ -32,10 +32,12 @@ public class Interact : MonoBehaviour
     bool drop_input;
 
     bool is_city_scene;
+    bool rollerskates;
 
     void Start()
     {
         input_system = gameObject.GetComponent<PlayerInputManager>();
+        DontDestroyOnLoad(gameObject);
     }
 
     void Update()
@@ -52,8 +54,8 @@ public class Interact : MonoBehaviour
         {
             if (hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
             {
-                if (typeof(Itemdata) == hit.collider.GetComponent<mounter>().itemdata.GetType())
-                {
+                // if (typeof(Itemdata) == hit.collider.GetComponent<mounter>().itemdata.GetType())
+                // {
                     looking_At.obj = hit.collider.gameObject;
                     looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
                     if (pick_n_interact && !isholding && looking_At.data.can_pick)
@@ -65,7 +67,7 @@ public class Interact : MonoBehaviour
                     {
                         UseItem(looking_At);
                     }
-                }
+                // }
             }
         }
         else
@@ -103,7 +105,7 @@ public class Interact : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            SceneManager.LoadScene(is_city_scene ? "TEST" : "CITY");
+            SceneManager.LoadScene("CITY");
         }
     }
 
@@ -133,6 +135,7 @@ public class Interact : MonoBehaviour
             case Itemdata.categories.rollerskates:
                 gameObject.GetComponent<FPS>().sprintspeed *= 2.0f;
                 gameObject.GetComponent<FPS>().skates = true;
+                rollerskates = true;
                 Destroy(to_use.obj);
                 break;
 

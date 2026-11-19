@@ -22,7 +22,7 @@ public class GasStationJob : MonoBehaviour
 
     public bool isholding = false;
     public bool product_checked = false;
-    public GameObject counter;
+    public GameObject customer_counter;
 
     PlayerInputManager player_input;
     bool pick_n_interact;
@@ -141,19 +141,29 @@ public class GasStationJob : MonoBehaviour
         {
             switch (gas_item_data.gasitem)
             {
-                case gas_itemdata.gasitem_category.product:
-                    physics_disable(touse.obj);
-                    touse.obj.transform.position = holdat.position;
-                    touse.obj.transform.SetParent(holdat.transform);
-                    Debug.Log("inhand: " + inhand.obj.name);
-                    product_checked = true;
-                    isholding = true;
-                    break;
+                // case gas_itemdata.gasitem_category.product:
+                //     physics_disable(touse.obj);
+                //     touse.obj.transform.position = holdat.position;
+                //     touse.obj.transform.SetParent(holdat.transform);
+                //     Debug.Log("inhand: " + inhand.obj.name);
+                //     product_checked = true;
+                //     isholding = true;
+                //     // if(looking_At.obj.tag == "cashmachine")
+                //     // {
+                //     //     Counter cash_machine = counter.GetComponent<Counter>();
+                //     //     cash_machine.counted++;
+                //     //     product_checked = false;
+                //     //     Destroy(inhand.obj);
+                //     //     isholding = false;
+                //     // }
+                    
+                //     break;
 
                 case gas_itemdata.gasitem_category.cashier:
-                    if (product_checked && looking_At.obj.tag == "cashmachine")
+                    // if (product_checked && looking_At.obj.tag == "cashmachine")
+                    if(inhand.data is gas_itemdata data && data.gasitem == gas_itemdata.gasitem_category.product)
                     {
-                        Counter cash_machine = counter.GetComponent<Counter>();
+                        Counter cash_machine = customer_counter.GetComponent<Counter>();
                         cash_machine.counted++;
                         product_checked = false;
                         Destroy(inhand.obj);
@@ -222,6 +232,7 @@ public class GasStationJob : MonoBehaviour
                     {
                         col.enabled = true;
                     }
+                    inhand.obj.transform.SetParent(null);
                     inhand.obj = null;
                     inhand.data = null;
                     isholding = false;

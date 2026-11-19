@@ -18,7 +18,7 @@ public class Counter : MonoBehaviour
             is_customer_wawiting = true;
             customer_need = customer.GetComponent<gasNPC>().needs;
             customer_need = customer_need > 3? 3 : customer_need;
-            Debug.Log("Customer here");
+            // Debug.Log("Customer here");
         }
     }
 
