@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class Interact : MonoBehaviour
 {
@@ -31,8 +30,12 @@ public class Interact : MonoBehaviour
     bool use_input;
     bool drop_input;
 
-    bool is_city_scene;
+
     bool rollerskates;
+
+    public Transform outside_loc;       //Vector3(2.17770386,-5.46380997,3.66063786)
+    bool onmap; 
+    public Transform inside_loc;
 
     void Start()
     {
@@ -42,7 +45,6 @@ public class Interact : MonoBehaviour
 
     void Update()
     {
-        is_city_scene = SceneManager.GetActiveScene().name == "CITY" ? true : false;
 
         pick_n_interact = input_system.pick_interact;
         use_input = input_system.use;
@@ -102,11 +104,6 @@ public class Interact : MonoBehaviour
         {
             UseItem(inhand);
         }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            SceneManager.LoadScene("CITY");
-        }
     }
 
     void UseItem(mounter_n_obj to_use)
@@ -127,8 +124,13 @@ public class Interact : MonoBehaviour
                 {
                     Debug.Log("Gas job start");
                     gameObject.GetComponent<GasStationJob>().enabled = true;
-                    gameObject.GetComponent<Interact>().enabled = false;
                     to_use.obj.GetComponent<gas_station_manager>().enabled = true;
+                    gameObject.GetComponent<Interact>().enabled = false;
+                    // to_use.data.obj_type = Itemdata.categories.GasStation;
+                    // if(to_use.data is gas_itemdata gasdata)
+                    // {
+                    //     gasdata.gasitem = gas_itemdata.gasitem_category.jobclose;
+                    // }
                 }
                 break;
 
@@ -137,6 +139,19 @@ public class Interact : MonoBehaviour
                 gameObject.GetComponent<FPS>().skates = true;
                 rollerskates = true;
                 Destroy(to_use.obj);
+                break;
+
+            case Itemdata.categories.house_door:
+                if (onmap)
+                {
+                    gameObject.transform.position = inside_loc.position;
+                    onmap = false;
+                }
+                else
+                {
+                    gameObject.transform.position = outside_loc.position   ;
+                    onmap = true;
+                }
                 break;
 
             default:

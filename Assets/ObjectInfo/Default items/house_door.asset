@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj_name: House Door
   can_pick: 0
-  obj_type: 3
+  obj_type: 6

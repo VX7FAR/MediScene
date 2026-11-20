@@ -67,6 +67,7 @@ public class GasStationJob : MonoBehaviour
         {
             if (hit.collider.GetComponent<mounter>() != null && hit.collider.gameObject != null)
             {
+                //For normal item
                 if (hit.collider.GetComponent<mounter>().itemdata.obj_type == Itemdata.categories.GasStation)
                 {
                     looking_At.obj = hit.collider.gameObject;
@@ -141,24 +142,6 @@ public class GasStationJob : MonoBehaviour
         {
             switch (gas_item_data.gasitem)
             {
-                // case gas_itemdata.gasitem_category.product:
-                //     physics_disable(touse.obj);
-                //     touse.obj.transform.position = holdat.position;
-                //     touse.obj.transform.SetParent(holdat.transform);
-                //     Debug.Log("inhand: " + inhand.obj.name);
-                //     product_checked = true;
-                //     isholding = true;
-                //     // if(looking_At.obj.tag == "cashmachine")
-                //     // {
-                //     //     Counter cash_machine = counter.GetComponent<Counter>();
-                //     //     cash_machine.counted++;
-                //     //     product_checked = false;
-                //     //     Destroy(inhand.obj);
-                //     //     isholding = false;
-                //     // }
-                    
-                //     break;
-
                 case gas_itemdata.gasitem_category.cashier:
                     // if (product_checked && looking_At.obj.tag == "cashmachine")
                     if(inhand.data is gas_itemdata data && data.gasitem == gas_itemdata.gasitem_category.product)

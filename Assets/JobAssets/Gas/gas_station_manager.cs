@@ -104,4 +104,19 @@ public class gas_station_manager : MonoBehaviour
         allcarspawned = true;
         car_spawned[1].SetActive(true);
     }
+
+    void OnDisable()
+    {
+        Destroy(car_spawned[0]);
+            car_spawned[0] = null;
+        Destroy(car_spawned[1]);
+            car_spawned[1] = null;
+            Destroy(npc_spawned[0]);
+            npc_spawned[0] = null;
+            Destroy(npc_spawned[1]);    
+            npc_spawned[1] = null;
+
+            allcarspawned = false;
+            allnpcspawned = false;
+    }
 }
