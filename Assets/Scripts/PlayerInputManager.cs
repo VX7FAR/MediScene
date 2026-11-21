@@ -6,12 +6,13 @@ using UnityEngine.InputSystem;
 public class PlayerInputManager : MonoBehaviour
 {
     [SerializeField]InputActionAsset interaction_input;
-    InputAction pick_n_interact;
+    InputAction interact;
     InputAction use_input;
     InputAction drop_input;
     InputAction wasd_input;
     InputAction drive_input;
     InputAction sprint_input;
+    InputAction pause_toggle;
 
     public bool lockmovement;
 
@@ -24,38 +25,44 @@ public class PlayerInputManager : MonoBehaviour
     public Vector2 wasd {get; private set;}
     public bool drive {get; private set;}
     public bool sprint {get; private set;}
+    public bool pause_toggle_isPressed {get; private set;}
 
 
     void OnEnable()
     {
         interaction_input.FindActionMap("Interactions").Enable();
         interaction_input.FindActionMap("FPS").Enable();
+        interaction_input.FindActionMap("Misc").Enable();
     }
 
     void Awake()
     {
-        pick_n_interact = interaction_input.FindActionMap("Interactions").FindAction("Interact");
+        interact = interaction_input.FindActionMap("Interactions").FindAction("Interact");
         use_input = interaction_input.FindActionMap("Interactions").FindAction("Use");
         drop_input = interaction_input.FindActionMap("Interactions").FindAction("Drop");
         drive_input = interaction_input.FindActionMap("Interactions").FindAction("Drive");
 
         wasd_input = interaction_input.FindActionMap("FPS").FindAction("WASD");
         sprint_input = interaction_input.FindActionMap("FPS").FindAction("Sprint");
+
+        pause_toggle = interaction_input.FindActionMap("Misc").FindAction("Toggle");
     }
 
     void Update()
     {
-        pick_interact = pick_n_interact.WasPressedThisFrame();
+        pick_interact = interact.WasPressedThisFrame();
         use = use_input.WasPressedThisFrame();
         drop = drop_input.WasPressedThisFrame();
         drive = drive_input.WasPressedThisFrame();
 
-        pick_interact_isPressed = pick_n_interact.IsPressed();
+        pick_interact_isPressed = interact.IsPressed();
         use_isPressed = use_input.IsPressed();
         drop_isPressed = drop_input.IsPressed();
 
         wasd = lockmovement ? new Vector2(0.0f,0.0f) : wasd_input.ReadValue<Vector2>();
         sprint = sprint_input.IsPressed();
+
+        pause_toggle_isPressed = pause_toggle.WasPerformedThisFrame();
     }
 
     void OnDisable()

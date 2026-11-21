@@ -54,4 +54,7 @@ JOB MAKING PROCEDURE:
 - add job management elements in jobmanager.cs script
 - write the new code for the job in newwly created job script
 
-    
+settings:
+- mouse_sen;
+- controls
+- audio

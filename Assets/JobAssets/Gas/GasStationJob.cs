@@ -25,7 +25,7 @@ public class GasStationJob : MonoBehaviour
     public GameObject customer_counter;
 
     PlayerInputManager player_input;
-    bool pick_n_interact;
+    bool interact;
     bool drop_input;
     bool use_input;
     bool use_held;
@@ -55,7 +55,7 @@ public class GasStationJob : MonoBehaviour
     void Update()
     {
         holding = inhand.obj;
-        pick_n_interact = player_input.pick_interact;
+        interact = player_input.pick_interact;
         use_input = player_input.use;
         use_held = player_input.use_isPressed;
         drop_input = player_input.drop;
@@ -72,7 +72,7 @@ public class GasStationJob : MonoBehaviour
                 {
                     looking_At.obj = hit.collider.gameObject;
                     looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
-                    if (pick_n_interact && !isholding && looking_At.data.can_pick)
+                    if (interact && !isholding && looking_At.data.can_pick)
                     {
                         //Pick in hand
                         picked_from_position = looking_At.obj.transform.position;
@@ -88,10 +88,14 @@ public class GasStationJob : MonoBehaviour
                             col.enabled = false;
                         }
                     }
-                    if (pick_n_interact && !looking_At.data.can_pick)
+                    else if (interact && !looking_At.data.can_pick)
                     {
                         //Dont pick but interact
                         use(looking_At);
+                    }
+                    else if(isholding && use_input)
+                    {
+                        use(inhand);
                     }
                 }
             }
@@ -114,11 +118,11 @@ public class GasStationJob : MonoBehaviour
             dropitem();
         }
 
-        if (use_input && isholding)
-        {
-            //When using the object in hand
-            use(inhand);
-        }
+        // if (use_input && isholding)
+        // {
+        //     //When using the object in hand
+        //     use(inhand);
+        // }
 
         if (tofuel != null && use_held && Vector3.Distance(tofuel.GetComponent<gasvehicle_ai>().fuel_tank_position.position, transform.position) < 4.0f)
         {

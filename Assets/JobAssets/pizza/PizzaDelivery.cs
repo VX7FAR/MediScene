@@ -26,7 +26,7 @@ public class PizzaDelivery : MonoBehaviour
     public bool isholding = false;
 
     PlayerInputManager player_input;
-    bool pick_n_interact;
+    bool interact;
     bool drop_input;
     bool use_input;
 
@@ -59,7 +59,7 @@ public class PizzaDelivery : MonoBehaviour
 
     void Update()
     {
-        pick_n_interact = player_input.pick_interact;
+        interact = player_input.pick_interact;
         use_input = player_input.use;
         drop_input = player_input.drop;
 
@@ -74,7 +74,7 @@ public class PizzaDelivery : MonoBehaviour
                 {
                     looking_At.obj = hit.collider.gameObject;
                     looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
-                    if (pick_n_interact && !isholding && looking_At.data.can_pick)
+                    if (interact && !isholding && looking_At.data.can_pick)
                     {
                         //Pick in hand
                         inhand = looking_At;
@@ -88,7 +88,7 @@ public class PizzaDelivery : MonoBehaviour
                             col.enabled = false;
                         }   
                     }
-                    if(pick_n_interact && !looking_At.data.can_pick)
+                    if(interact && !looking_At.data.can_pick)
                     {
                         //Dont pick but interact
                         use(looking_At);

@@ -7,11 +7,11 @@ using UnityEngine.UIElements;
 
 public class playerdata : MonoBehaviour
 {
-    public int money;
-    [SerializeField]TextMeshProUGUI moneytext;
+    // public int money;
+    // [SerializeField]TextMeshProUGUI moneytext;
 
-    void Update()
-    {
-        moneytext.text = money.ToString();
-    }
+    // void Update()
+    // {
+    //     moneytext.text = money.ToString();
+    // }
 }

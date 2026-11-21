@@ -26,7 +26,7 @@ public class Interact : MonoBehaviour
 
     PlayerInputManager input_system;
 
-    bool pick_n_interact;
+    bool interact;
     bool use_input;
     bool drop_input;
 
@@ -46,7 +46,7 @@ public class Interact : MonoBehaviour
     void Update()
     {
 
-        pick_n_interact = input_system.pick_interact;
+        interact = input_system.pick_interact;
         use_input = input_system.use;
         drop_input = input_system.drop;
 
@@ -60,12 +60,12 @@ public class Interact : MonoBehaviour
                 // {
                     looking_At.obj = hit.collider.gameObject;
                     looking_At.data = hit.collider.GetComponent<mounter>().itemdata;
-                    if (pick_n_interact && !isholding && looking_At.data.can_pick)
+                    if (interact && !isholding && looking_At.data.can_pick)
                     {
                         inhand = looking_At;
                         isholding = true;
                     }
-                    if (use_input && !looking_At.data.can_pick)
+                    if (interact && !looking_At.data.can_pick)
                     {
                         UseItem(looking_At);
                     }

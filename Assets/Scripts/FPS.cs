@@ -19,6 +19,7 @@ public class FPS : MonoBehaviour
     [SerializeField] CharacterController char_controller;
     [SerializeField] GameObject cam;
     public float mouse_Sen;
+    public bool let_mousesen_change = true;
 
     //Movement
     public float movement_speed;
@@ -108,8 +109,8 @@ public class FPS : MonoBehaviour
             {
                 fixed_key2.y = Mathf.Sign(smooth_wasd.y);
             }
-            move_x = fixed_key2.x * fixed_key_spd * Time.deltaTime * flip * flipmousey;
-            move_z = fixed_key2.y * fixed_key_spd * Time.deltaTime * flip * flipmousey;
+            move_x = fixed_key2.x * movement_speed * Time.deltaTime * flip * flipmousey;
+            move_z = fixed_key2.y * movement_speed * Time.deltaTime * flip * flipmousey;
         }
 
         move = transform.forward * move_z + transform.right * move_x;
