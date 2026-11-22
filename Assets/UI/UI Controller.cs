@@ -42,15 +42,14 @@ public class UIController : MonoBehaviour
         {
             if(state_of_ui == ui_state.HUD)
             {
-                state_of_ui = ui_state.Pause;
+                set_UI(ui_state.Pause);    
             }
             else if(state_of_ui == ui_state.Pause)
             {
-                state_of_ui = ui_state.HUD;
+                set_UI(ui_state.HUD);
             }
         }
 
-        set_UI(state_of_ui);    
     }
 
     public void set_UI(ui_state setto)
