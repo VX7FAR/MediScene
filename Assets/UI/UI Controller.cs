@@ -1,4 +1,5 @@
-    using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
@@ -8,13 +9,17 @@ public class UIController : MonoBehaviour
 {
     public enum ui_state
     {
-        HUD, Pause
+        HUD, Pause, settings
     }
     public ui_state state_of_ui;
 
     [Header("UI")]
     [SerializeField]GameObject HUD;
     [SerializeField]GameObject paused;
+    [SerializeField]GameObject settings;
+    [SerializeField]GameObject settings_controls;
+    [SerializeField]GameObject settings_audio;
+    [SerializeField]GameObject settings_graphics;
 
     [Header("Gameobjects")]
     [SerializeField]GameObject player;
@@ -57,6 +62,7 @@ public class UIController : MonoBehaviour
                 paused.SetActive(false);
                 Time.timeScale = 1.0f;
                 player.GetComponent<FPS>().enabled = true;
+                Cursor.lockState = CursorLockMode.Locked;
                 break;
 
             case ui_state.Pause:
@@ -64,6 +70,14 @@ public class UIController : MonoBehaviour
                 HUD.SetActive(false);
                 Time.timeScale = 0.0f;
                 player.GetComponent<FPS>().enabled = false;
+                Cursor.lockState = CursorLockMode.None;
+                break;
+
+            case ui_state.settings:
+                paused.SetActive(false);
+                HUD.SetActive(false);
+                settings.SetActive(true);
+                settings_ui("controls");
                 break;
 
             default:
@@ -72,23 +86,56 @@ public class UIController : MonoBehaviour
         state_of_ui = setto;
     }
 
-    public void button_ui(string setstate)
+    public void uistate(string s)
     {
-        if(setstate == "hud")
+        switch (s)
         {
-            set_UI(ui_state.HUD);
+            case "hud":
+                set_UI(ui_state.HUD);
+                break;
+
+            case "setting":
+                set_UI(ui_state.settings);  
+                settings_ui("controls");
+                break;
+
+            case "restart":
+                Debug.Log("re_Day");
+                break;
+
+            case "quit":
+                Debug.Log("quit");
+                break;
+
+            default:
+                break;
         }
-        else if(setstate == "settings")
+    }
+
+    public void settings_ui(string setstate)
+    {
+        paused.SetActive(false);
+        settings.SetActive(true);
+        settings_controls.SetActive(false);
+        settings_audio.SetActive(false);
+        settings_graphics.SetActive(false);
+        if(setstate == "controls")
         {
-            Debug.Log("settings");
+            settings_controls.SetActive(true);
+            settings_audio.SetActive(false);
+            settings_graphics.SetActive(false);
         }
-        else if(setstate == "re_day")
+        else if(setstate == "audio")
         {
-            Debug.Log("Restart day");
+            settings_controls.SetActive(false);
+            settings_audio.SetActive(true);
+            settings_graphics.SetActive(false);
         }
-        else if(setstate == "quit")
+        else if(setstate == "graphics")
         {
-            Debug.Log("APP QUIT");      
+            settings_controls.SetActive(false);
+            settings_audio.SetActive(false);
+            settings_graphics.SetActive(true);
         }
     }
 
