@@ -408,7 +408,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: fire
+  m_Text: FUIAF
 --- !u!222 &232441593
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -613,7 +613,7 @@ MonoBehaviour:
   m_Action: {fileID: -8951554574406152840, guid: d95633573f004054987fab2f80af863c, type: 3}
   m_BindingId: b0bdd193-5ff7-441d-b5d0-f82235f79128
   m_DisplayStringOptions: 0
-  m_ActionLabel: {fileID: 232441592}
+  m_ActionLabel: {fileID: 0}
   m_BindingText: {fileID: 1649492735}
   m_RebindOverlay: {fileID: 1659276522}
   m_RebindText: {fileID: 231614822}
@@ -1103,7 +1103,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: G
+  m_Text: T
 --- !u!222 &1649492736
 CanvasRenderer:
   m_ObjectHideFlags: 0

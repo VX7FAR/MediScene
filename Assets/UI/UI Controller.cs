@@ -18,9 +18,9 @@ public class UIController : MonoBehaviour
     [SerializeField]GameObject HUD;
     [SerializeField]GameObject paused;
     [SerializeField]GameObject settings;
-    [SerializeField]GameObject settings_controls;
-    [SerializeField]GameObject settings_audio;
-    [SerializeField]GameObject settings_graphics;
+        [SerializeField]GameObject settings_controls;
+        [SerializeField]GameObject settings_audio;
+        [SerializeField]GameObject settings_graphics;
 
     [Header("Gameobjects")]
     [SerializeField]GameObject player;
@@ -34,6 +34,9 @@ public class UIController : MonoBehaviour
     {
         set_UI(ui_state.HUD);
         input_manager = player.GetComponent<PlayerInputManager>();
+        HUD.SetActive(true);
+        paused.SetActive(false);
+        settings.SetActive(false);
     }
 
     void Update()
@@ -46,12 +49,11 @@ public class UIController : MonoBehaviour
             {
                 set_UI(ui_state.Pause);    
             }
-            else if(state_of_ui == ui_state.Pause)
+            else
             {
                 set_UI(ui_state.HUD);
             }
         }
-
     }
 
     public void set_UI(ui_state setto)
@@ -61,6 +63,7 @@ public class UIController : MonoBehaviour
             case ui_state.HUD:
                 HUD.SetActive(true);
                 paused.SetActive(false);
+                settings.SetActive(false);
                 Time.timeScale = 1.0f;
                 player.GetComponent<FPS>().enabled = true;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -69,6 +72,7 @@ public class UIController : MonoBehaviour
             case ui_state.Pause:
                 paused.SetActive(true);
                 HUD.SetActive(false);
+                settings.SetActive(false);
                 Time.timeScale = 0.0f;
                 player.GetComponent<FPS>().enabled = false;
                 Cursor.lockState = CursorLockMode.None;
