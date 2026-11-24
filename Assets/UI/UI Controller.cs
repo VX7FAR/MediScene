@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIController : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class UIController : MonoBehaviour
     [SerializeField]GameObject player;
 
     [Header("Input")]
+    public PlayerInput input_system;
     PlayerInputManager input_manager;
     bool pause_toggle;
 
@@ -144,6 +146,33 @@ public class UIController : MonoBehaviour
         if (plr.let_mousesen_change)
         {
             plr.mouse_Sen = value;
+        }
+    
+        // Debug.Log(value);
+    }
+
+    public void rebind_input(string toedit, int binding_index = 0)
+    {
+        InputAction action = input_system.actions[toedit];
+        action.Disable();
+
+        action.PerformInteractiveRebinding(binding_index).OnComplete(operation =>
+        {
+            operation.Dispose();
+            action.Enable();
+        }).Start();
+    }
+
+    public void Rebind(string bind)
+    {
+        switch (bind)
+        {
+            case "pause":
+                rebind_input("Pause");
+                break;
+
+            default:
+                break;
         }
     }
 }

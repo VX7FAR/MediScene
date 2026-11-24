@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "test",
+    "maps": [
+        {
+            "name": "test1",
+            "id": "afc18c6a-142e-401f-8b46-662246b1b0ae",
+            "actions": [
+                {
+                    "name": "fire",
+                    "type": "Button",
+                    "id": "d3b755b9-aa3f-4bc5-8fd5-6822c6d388f2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b0bdd193-5ff7-441d-b5d0-f82235f79128",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

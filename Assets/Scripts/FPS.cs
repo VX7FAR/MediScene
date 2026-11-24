@@ -76,7 +76,7 @@ public class FPS : MonoBehaviour
     void Update()
     {
         cansprint = player_input.sprint;
-        mouse_Sen = do_oversteer ? oversteer : 5.0f;
+        mouse_Sen = do_oversteer ? oversteer : mouse_Sen;
         if (cansprint)
         {
             movement_speed = sprintspeed + (sprintspeed * (skates ? 1.0f : 0.0f)) + oversteer;

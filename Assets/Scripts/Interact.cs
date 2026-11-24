@@ -40,7 +40,7 @@ public class Interact : MonoBehaviour
     void Start()
     {
         input_system = gameObject.GetComponent<PlayerInputManager>();
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
     }
 
     void Update()
