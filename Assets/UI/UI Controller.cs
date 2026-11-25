@@ -144,17 +144,6 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void change_mouse_spd(float value)
-    {
-        FPS plr = player.GetComponent<FPS>();
-        if (plr.let_mousesen_change)
-        {
-            plr.mouse_Sen = value;
-        }
-    
-        // Debug.Log(value);
-    }
-
     public void rebind_input(string toedit, int binding_index = 0)
     {
         InputAction action = input_system.actions[toedit];

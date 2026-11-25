@@ -58,3 +58,8 @@ settings:
 - mouse_sen;
 - controls
 - audio
+
+resolution              //
+shadow                  
+fov
+vsync                   //
