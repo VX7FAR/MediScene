@@ -29757,10 +29757,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1907360794}
   cam: {fileID: 451943839}
+  urp_Asset: {fileID: 11400000, guid: 4517ba1ddccdf9746a6d9bc0d9157fab, type: 2}
   mouse_slider: {fileID: 85673199}
   mouse_slider_text: {fileID: 147275569}
   fov: {fileID: 2007299989}
   fov_slider_text: {fileID: 1082127872}
+  vsync_toggle: {fileID: 28162366}
+  shadow_toggle: {fileID: 71893403}
 --- !u!1 &619841837 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6605085188144201851, guid: 889884773b475d94aade6689972e7a95, type: 3}
@@ -66379,7 +66382,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Tap LMB
+  m_Text: Tap RMB
 --- !u!222 &1497909491
 CanvasRenderer:
   m_ObjectHideFlags: 0
