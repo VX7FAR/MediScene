@@ -59,7 +59,9 @@ settings:
 - controls
 - audio
 
-resolution              //
-shadow                  
+mouse_sen
 fov
-vsync                   //
+vsync
+resolution
+shadows
+fullscreen;
