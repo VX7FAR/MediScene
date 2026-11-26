@@ -43,6 +43,21 @@ public class Interact : MonoBehaviour
         // DontDestroyOnLoad(gameObject);
     }
 
+    // void OnTriggerEnter(Collider obj)
+    // {
+    //     if(obj.tag == "Respawn")
+    //     {
+    //         onmap = false;
+    //     }
+    // }
+    // void OnTriggerExit(Collider obj)
+    // {
+    //     if(obj.tag == "Respawn")
+    //     {
+    //         onmap = true;
+    //     }
+    // }
+
     void Update()
     {
 
@@ -144,13 +159,21 @@ public class Interact : MonoBehaviour
             case Itemdata.categories.house_door:
                 if (onmap)
                 {
+                    gameObject.GetComponent<FPS>().enabled = false;
                     gameObject.transform.position = inside_loc.position;
+                    Debug.Log("inside house");
                     onmap = false;
+                    gameObject.GetComponent<FPS>().enabled = true;
+                    return;
                 }
-                else
+                else if(!onmap)
                 {
-                    gameObject.transform.position = outside_loc.position   ;
+                    gameObject.GetComponent<FPS>().enabled = false;
+                    gameObject.transform.position = outside_loc.position;
+                    Debug.Log("outside house");
                     onmap = true;
+                    gameObject.GetComponent<FPS>().enabled = true;
+                    return;
                 }
                 break;
 

@@ -23,8 +23,8 @@ public class settings : MonoBehaviour
     [SerializeField] Toggle vsync_toggle;
     [SerializeField] Toggle shadow_toggle;
     float shadow_distance = 50f;
-    [SerializeField]Dropdown res_dd;
-    [SerializeField]Toggle fullscr;
+    [SerializeField] Dropdown res_dd;
+    [SerializeField] Toggle fullscr;
 
     void Start()
     {
@@ -43,8 +43,8 @@ public class settings : MonoBehaviour
         cam.fieldOfView = PlayerPrefs.GetFloat("fov");
 
         vsync_toggle.isOn = PlayerPrefs.GetInt("vsync") == 1 ? true : false;
-        vsync_change(vsync_toggle.isOn);    
-    
+        vsync_change(vsync_toggle.isOn);
+
         shadow_toggle.isOn = PlayerPrefs.GetInt("shadow") == 1 ? true : false;
         shadow_change(shadow_toggle.isOn);
 
@@ -66,10 +66,13 @@ public class settings : MonoBehaviour
 
     public void mouse_speed()
     {
-        float value = mouse_slider.value;
-        player.GetComponent<FPS>().mouse_Sen = value;
-        PlayerPrefs.SetFloat("mouse_spd", value);
-        mouse_slider_text.text = ((int)value).ToString();
+        if (player.GetComponent<FPS>().let_mousesen_change)
+        {
+            float value = mouse_slider.value;
+            player.GetComponent<FPS>().mouse_Sen = value;
+            PlayerPrefs.SetFloat("mouse_spd", value);
+            mouse_slider_text.text = ((int)value).ToString();
+        }
     }
 
     public void fov_change()
