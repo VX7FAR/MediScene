@@ -181,11 +181,16 @@ public class PizzaDelivery : MonoBehaviour
                     }
                     break;
                 
-                case PizzaItemData.pizza_category.SpawnBox:
+                case PizzaItemData.pizza_category.SpawnBox:     
                     if(boxes == 0)
                     {
                         job_manager.GetComponent<jobmanager>().spawn_pizza_box = true;
                     }
+                    break;
+
+                case PizzaItemData.pizza_category.finishjob:
+                    gameObject.GetComponent<Interact>().enabled = true;
+                    gameObject.GetComponent<PizzaDelivery>().enabled = false;
                     break;
 
                 default:

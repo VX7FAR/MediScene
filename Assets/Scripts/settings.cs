@@ -37,6 +37,7 @@ public class settings : MonoBehaviour
             PlayerPrefs.SetInt("vsync", 0);
             PlayerPrefs.SetInt("resolution_i", 0);
             PlayerPrefs.SetInt("fullscreen", 1);
+            PlayerPrefs.SetInt("shadow", 1);
         }
 
         mouse_slider.value = PlayerPrefs.GetFloat("mouse_spd");

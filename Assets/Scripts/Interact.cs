@@ -134,6 +134,7 @@ public class Interact : MonoBehaviour
                 {
                     gameObject.GetComponent<PizzaDelivery>().enabled = true;
                     gameObject.GetComponent<Interact>().enabled = false;
+                    Debug.Log("Pizza Zob Start");
                 }
                 else if(to_use.data.obj_name == "Gasjob")   //Starts gas station job
                 {
