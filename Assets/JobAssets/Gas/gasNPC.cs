@@ -36,6 +36,7 @@ public class gasNPC : MonoBehaviour
     public Transform[] place_At;
     public GameObject counter;
     public bool customer_Waiting;
+    List<GameObject> placed_item;
     GameObject customer;
     Counter counter_script;
 
@@ -49,7 +50,8 @@ public class gasNPC : MonoBehaviour
                 change_item_physics(inventory[0], false, false);
                 inventory[0].transform.SetParent(null);
                 inventory[0].GetComponent<Collider>().enabled = true;
-                inventory.RemoveAt(0);
+                // placed_item.Add(inventory[0]);
+                // inventory.RemoveAt(0);
             }
             else
             {
@@ -59,7 +61,8 @@ public class gasNPC : MonoBehaviour
                     change_item_physics(inventory[i], false, false);
                     inventory[i].transform.SetParent(null);
                     inventory[i].GetComponent<Collider>().enabled = true;
-                    inventory.RemoveAt(i);
+                    // placed_item.Add(inventory[i]);
+                    // inventory.RemoveAt(i);
                 }
             }
         }
@@ -194,5 +197,18 @@ public class gasNPC : MonoBehaviour
                 needs = inventory.Count;
                 itemtaken = true;
             }
+    }
+
+    void OnDestroy()
+    {
+        foreach(GameObject obj in inventory)
+        {
+            Destroy(obj);
+        }
+
+        // foreach(GameObject obj in placed_item)
+        // {
+        //     Destroy(obj);
+        // }
     }
 }

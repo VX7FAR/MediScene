@@ -35,6 +35,8 @@ public class GasStationJob : MonoBehaviour
 
     GameObject holding;
 
+    public gas_station_manager station_manager;
+
     void OnTriggerEnter(Collider colliding_to)
     {
 
@@ -226,5 +228,10 @@ public class GasStationJob : MonoBehaviour
                     break;
             }
         }
+    }
+
+    void OnDisable()
+    {
+        station_manager.enabled = false;
     }
 }

@@ -30,7 +30,7 @@ public class gas_station_manager : MonoBehaviour
     GameObject[] car_spawned = new GameObject[2];
     bool allcarspawned;
 
-    void Start()
+    void OnEnable()
     {
         StartCoroutine(init_npc());
 

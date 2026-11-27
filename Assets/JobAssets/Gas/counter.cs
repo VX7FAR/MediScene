@@ -22,6 +22,14 @@ public class Counter : MonoBehaviour
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "NPC")
+        {
+            customer_need = 0;
+        }
+    }
+
     void Update()
     {
         if(customer_need == counted && customer != null)

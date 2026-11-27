@@ -142,5 +142,12 @@ public class settings : MonoBehaviour
 
         PlayerPrefs.SetInt("resolution_i", value);
     }
+
+    public void leave_job()
+    {
+        player.GetComponent<Interact>().enabled = true;
+        player.GetComponent<PizzaDelivery>().enabled = false;
+        player.GetComponent<GasStationJob>().enabled = false;
+    }
 }
 

@@ -209,4 +209,9 @@ public class PizzaDelivery : MonoBehaviour
         delivered_At.SetActive(false);
         boxes--;
     }
+
+    void OnDisable()
+    {
+        
+    }
 }
