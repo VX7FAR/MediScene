@@ -36,6 +36,7 @@ public class PizzaDelivery : MonoBehaviour
     bool new_delivery = false;
     int previous_delivery;
     int delivery_index;
+    int total_delivered = 0;
 
     void OnTriggerEnter(Collider colliding_to)
     {
@@ -167,9 +168,12 @@ public class PizzaDelivery : MonoBehaviour
                     return;
 
                 case PizzaItemData.pizza_category.scooter:
-                    Debug.Log("Go Deliver");
-                    isdelivering = boxes > 0 ? true : false;
-                    new_delivery = boxes > 0 ? true : false;
+                    if(boxes == job_manager.GetComponent<jobmanager>().totalboxes)
+                    {
+                        Debug.Log("Go Deliver");
+                        isdelivering = boxes > 0 ? true : false;
+                        new_delivery = boxes > 0 ? true : false;
+                    }
                     break;
                 
                 case PizzaItemData.pizza_category.deliverat:
@@ -178,11 +182,12 @@ public class PizzaDelivery : MonoBehaviour
                         boxes--;
                         touse.obj.SetActive(false);
                         new_delivery = true;
+                        total_delivered++;
                     }
                     break;
                 
                 case PizzaItemData.pizza_category.SpawnBox:     
-                    if(boxes == 0)
+                    if(boxes == 0 && total_delivered == job_manager.GetComponent<jobmanager>().totalboxes)
                     {
                         job_manager.GetComponent<jobmanager>().spawn_pizza_box = true;
                     }
@@ -212,6 +217,26 @@ public class PizzaDelivery : MonoBehaviour
 
     void OnDisable()
     {
-        
+        isdelivering = false;
+        boxes = 0;
+        foreach(GameObject obj in deliver_at)
+        {
+            obj.SetActive(false);
+        }
+        if(inhand.obj != null &&  inhand.data.obj_type == Itemdata.categories.PizzaDelivery)
+        {
+            Destroy(inhand.obj);
+            inhand.obj = null;
+            inhand.data = null;
+        }
+
+        foreach(GameObject obj in job_manager.GetComponent<jobmanager>().spawned_boxes)
+        {
+            if(obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        job_manager.GetComponent<jobmanager>().spawned_boxes.Clear();
     }
 }

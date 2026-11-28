@@ -65,3 +65,4 @@ vsync
 resolution
 shadows
 fullscreen;
+

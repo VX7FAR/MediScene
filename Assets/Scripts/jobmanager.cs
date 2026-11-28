@@ -12,7 +12,8 @@ public class jobmanager : MonoBehaviour
     [SerializeField]GameObject pizzabox;
     [SerializeField]Transform spawn_pizza_At;
     public bool spawn_pizza_box = false;
-    
+    public List<GameObject> spawned_boxes;
+    public int totalboxes;
 
     [Header("Gas Station job")]
     [SerializeField]GameObject prefab_gas_ai;
@@ -26,8 +27,9 @@ public class jobmanager : MonoBehaviour
             int amount = Random.Range(1, 9);
             for(int i=0;i <= amount; i++)
             {
-                GameObject new_box = Instantiate(pizzabox, spawn_pizza_At.position, Quaternion.identity);
+                spawned_boxes.Add(Instantiate(pizzabox, spawn_pizza_At.position, Quaternion.identity));
             }
+            totalboxes = spawned_boxes.Count;
             spawn_pizza_box = false;
         }
     }
